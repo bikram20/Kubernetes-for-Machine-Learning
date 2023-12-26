@@ -10,8 +10,9 @@ In the tutorials, we'll be using MicroK8s on Ubuntu 22.04, primarily hosted on P
 - [3. GPU Application Stack](#3-gpu-application-stack)
 - [4. GPU + Container](#4-gpu--container)
 - [5. GPU + Kubernetes](#5-gpu--kubernetes)
-- [6. Kubeflow](#6-kubeflow)
-- [7. Ray (Future Content)](#7-ray-future-content)
+- [6. Multi-instance GPU](#6-Multi-instance-GPU)
+- [7. Kubeflow](#7-kubeflow)
+- [8. Ray (Future Content)](#8-ray-future-content)
 
 ## 1. Basics of GPU
 This chapter provides a foundation in GPU technology, focusing particularly on NVIDIA GPUs. We'll explore hardware checks, driver installation, and the intricacies of GPU compute, memory, and scheduling. Includes hands-on command-line examples.
@@ -28,10 +29,13 @@ Gain practical skills in setting up container environments and deploying GPU-bas
 ## 5. GPU + Kubernetes
 Explore the integration of GPUs with Kubernetes using MicroK8s and Ansible. This chapter is hands-on and highly relevant for those looking to employ Kubernetes in machine learning applications.
 
-## 6. Kubeflow
+## 6. Multi-instance GPU
+We explore how to optimize your Kubernetes environment for more complex scenarios, including multi-instance GPUs, which allow for more efficient resource utilization and improved performance for machine learning workloads.
+
+## 7. Kubeflow
 We dive into Kubeflow within the Kubernetes ecosystem. This chapter includes engaging examples like hyperparameter tuning and working with Large Language Models (LLMs), catering to the current trends and interests in machine learning.
 
-## 7. Ray (Future Content)
+## 8. Ray (Future Content)
 Planned for future inclusion, this section will focus on Ray for distributed machine learning, addressing scalability and the challenges of data-heavy environments.
 
 ## Conclusion
