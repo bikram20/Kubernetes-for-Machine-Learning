@@ -2,6 +2,8 @@
 
 Welcome to "Machine Learning for Kubernetes Engineers," a practical and comprehensive guide designed for Kubernetes engineers who are eager to dive into the world of machine learning, especially with a focus on GPU utilization.
 
+In the tutorials, we'll be using MicroK8s on Ubuntu 22.04, primarily hosted on Paperspace (DigitalOcean), to provide you with a hands-on, real-world experience of managing machine learning workflows in Kubernetes environments.
+
 ## Table of Contents
 - [1. Basics of GPU](#1-basics-of-gpu)
 - [2. GPU Performance](#2-gpu-performance)
