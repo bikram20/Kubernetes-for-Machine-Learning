@@ -83,7 +83,22 @@ paperspace@psq929f0nprl:~$ nvidia-smi
 +---------------------------------------------------------------------------------------+
 paperspace@psq929f0nprl:~$ 
 ```
-[Interpretation of the columns follows]
+[Interpretation of the columns]
+List of columns
+- GPU: This column indicates the index number of each GPU in your system. It's useful when specifying a GPU for specific tasks or monitoring.
+- Name: Displays the model name of the GPU, useful for identifying the type of NVIDIA GPU installed.
+- Persistence-M: Indicates if the persistence mode is enabled or disabled. When enabled, it helps maintain consistent GPU performance by keeping the GPU initialized even when not in use.
+- Bus-Id: Shows the unique identifier of the GPU on the system bus, useful for system-level management and configuration.
+- Disp.A: Indicates whether the GPU is connected to a display.
+- Volatile Uncorr. ECC: Displays Error Correction Code (ECC) memory information. ECC memory can detect and correct some types of memory errors, which is crucial for computational accuracy.
+- Fan: Shows the fan speed as a percentage of its maximum speed. This is important for cooling and operational efficiency.
+- Temp: Indicates the current temperature of the GPU.
+- Perf: Represents the current performance state of the GPU, usually ranging from P0 (maximum performance) to P8 (minimum performance).
+- Pwr:Usage/Cap: Displays the current power usage and the power limit (cap) for the GPU.
+- Memory-Usage: Shows the amount of GPU memory currently in use and the total GPU memory available.
+- GPU-Util: Indicates the percentage of GPU computational cores being used. High utilization means the GPU is being heavily used.
+- Compute M.: Shows the current compute mode of the GPU. Different modes determine how the GPU can be used (e.g., for graphics or compute tasks).
+- MIG M.: Stands for Multi-Instance GPU Mode. If supported and enabled, this mode allows a single GPU to be split into multiple instances, each with its own resources like memory and cores, for separate tasks or users.
 </details>
 
 ### CUDA (Compute Unified Device Architecture)
@@ -142,31 +157,32 @@ Save the following script as `mat_mul.py` and run it using Python3.
 
 <details>
 <summary>Matrix Multiplication Script (Click to expand)</summary>
+
 ```python
 #!/usr/bin/python3
 import torch
 import time
 
-# Size of the matrices. You need to adjust the size based on your GPU. 
-# The arithmatic may not be that simple in reality (other processes running, reserved memory etc.), 
-# but matrices size gives an idea of how much GPU RAM you need, 
-# eg. 2 input and 1 output matrices with each element a FP32 or FP16.
+#Size of the matrices. You need to adjust the size based on your GPU. 
+#The arithmatic may not be that simple in reality (other processes running, reserved memory etc.), 
+#but matrices size gives an idea of how much GPU RAM you need, 
+#eg. 2 input and 1 output matrices with each element a FP32 or FP16.
 N_cpu = 10000
 N_cudacore = 25000
 N_tensorcore = 25000
 
-# Computation on CPU
-# Create random matrices. These are 32-bit floating point
+#Computation on CPU
+#Create random matrices. These are 32-bit floating point
 A = torch.rand(N_cpu, N_cpu)
 B = torch.rand(N_cpu, N_cpu)
 
-# Perform matrix multiplication on CPU
+#Perform matrix multiplication on CPU
 start_time = time.time()
 result_cpu = torch.matmul(A, B)
 time_cpu = time.time() - start_time
 print(f"Matrices dimension: {N_cpu}, Time taken on CPU: {time_cpu} seconds")
 
-# This is executed on CUDA cores on the GPU
+#This is executed on CUDA cores on the GPU
 if torch.cuda.is_available():
     device = torch.device('cuda')
     #torch.cuda.empty_cache()
@@ -183,7 +199,7 @@ else:
     print("GPU not available.")
 
 
-# Pytorch uses tensor cores on the GPU for FP16 computation
+#Pytorch uses tensor cores on the GPU for FP16 computation
 if torch.cuda.is_available():
     device = torch.device('cuda')
     # Create random matrices in half precision (FP16). This can fail, because pytorch needs to allocate memory for this task on GPU RAM, and then less memory is available for matrix multiplication. 
