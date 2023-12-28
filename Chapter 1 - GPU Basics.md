@@ -239,6 +239,7 @@ Tensor cores perform a specialized operation per GPU clock cycle known as fused 
 
 <details>
 <summary>Execution Results (Click to expand)</summary>
+
 ```shell
 paperspace@ps3nfhuzbif3:~$ ./mat_mul.py 
 Matrices dimension: 10000, Time taken on CPU: 2.8191654682159424 seconds
