@@ -104,7 +104,7 @@ List of columns
 ### CUDA (Compute Unified Device Architecture)
 CUDA is a bridge for executing parallel computations on the GPU. It runs primarily on the CPU and manages the execution of code on the GPU. The runtime and compiler interpret, compile, and schedule the execution of kernels, which are the portions of code running on the GPU. This enables CUDA to use the CPU for orchestration while leveraging the GPU's parallel processing power.
 
-CUDA is crucial for GPU application development. While containers often bundle CUDA libraries, we'll install it directly on our VM. Ensure compatibility between the CUDA library, hardware, and driver. Download CUDA from NVIDIA's website, choosing the version that matches your system and driver.
+CUDA is crucial for GPU application development. While containers often bundle CUDA libraries, we'll install it directly on our VM. Ensure compatibility between the CUDA library, hardware, and driver. Download CUDA from [NVIDIA's website](https://www.google.com/search?client=safari&rls=en&q=cuda+installation+nvidia&ie=UTF-8&oe=UTF-8), choosing the version that matches your system and driver.
 
 <details>
 <summary>Installation Steps (Click to expand)</summary>
