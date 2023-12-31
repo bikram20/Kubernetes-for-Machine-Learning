@@ -229,4 +229,4 @@ root@4fca2ef6a1f5:/mnt#
 ```
 
 
-
+At this point, you can deactivate your VM if you no longer need it. 

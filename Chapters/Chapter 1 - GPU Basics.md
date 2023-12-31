@@ -7,16 +7,23 @@ Before we start, ensure you have a Ubuntu 22.04 server/desktop with an NVIDIA GP
 
 Paperspace offers UI and CLI for machine creation. Choose a server with the vanilla Ubuntu 22.04 image and note that this setup will be used up to chapter 3. From chapter 4 (Kubernetes), we'll switch to a new VM setup.
 
-After connecting to your VM, verify the presence of NVIDIA cards:
+**Keep in mind that there is a cost (eg. $0.76/hr for A4000) to your account for using these VMs. When you power-off the machine, you only pay for the storage.**
+
+After connecting to your VM, verify the presence of NVIDIA cards.
 
 <details>
 <summary>Checking NVIDIA Cards (Click to expand)</summary>
 
 ```shell
-paperspace@psh2g12unz9x:~$ lspci | grep -i nvidia
+# Blank is expected as we are starting from a clean image
+paperspace@psxgrv5u6:~$ sudo dpkg -l | grep -i nvidia
+# Blank is expected as we are starting from a clean image
+paperspace@psxgrv5u6:~$ sudo lsmod | grep -i nvidia
+# Should display the GPU hardware
+paperspace@psxgrv5u6:~$ sudo lspci | grep -i nvidia
 00:05.0 VGA compatible controller: NVIDIA Corporation GA104GL [RTX A4000] (rev a1)
 00:06.0 Audio device: NVIDIA Corporation GA104 High Definition Audio Controller (rev a1)
-paperspace@psh2g12unz9x:~$
+paperspace@psxgrv5u6:~$ 
 ```
 </details>
 
@@ -30,7 +37,7 @@ A correct driver installation is key for optimal GPU performance. Ubuntu provide
    Ensure your system is up-to-date.
    ```shell
    sudo apt update
-   sudo apt upgrade
+   DEBIAN_FRONTEND=noninteractive  sudo apt upgrade -y
    ```
 
 2. **Install Recommended NVIDIA Drivers**:

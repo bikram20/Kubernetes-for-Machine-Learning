@@ -1,0 +1,22 @@
+# roles/paperspace_rw_storage_class/files/smb-storageclass.yml.j2
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: smb
+provisioner: smb.csi.k8s.io
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  source: //10.5.123.4/sdz8i4a99g
+  csi.storage.k8s.io/provisioner-secret-name: smbcreds
+  csi.storage.k8s.io/provisioner-secret-namespace: default
+  csi.storage.k8s.io/node-stage-secret-name: smbcreds
+  csi.storage.k8s.io/node-stage-secret-namespace: default
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1001
+  - gid=1001
+  - noperm
+  - mfsymlinks
+  - cache=strict
+  - noserverino

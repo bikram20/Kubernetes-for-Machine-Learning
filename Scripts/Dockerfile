@@ -8,10 +8,6 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install any needed packages specified in requirements.txt
-# Base CUDA image is 1.3GB
-# By combining the RUN commands and removing the pip cache, the image size is down from 10.3GB to 7.3GB
-# RUN apt-get update && apt-get install -y python3-pip
-# RUN pip3 install torch torchvision torchaudio
 RUN apt-get update && apt-get install -y python3-pip  && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir torch torchvision torchaudio transformers[torch] datasets scikit-learn
 

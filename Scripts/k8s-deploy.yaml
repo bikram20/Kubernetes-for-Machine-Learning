@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpu-deployment
+spec:
+  selector:
+    matchLabels:
+      app: gpu-app
+  replicas: 1  
+  template:
+    metadata:
+      labels:
+        app: gpu-app
+    spec:
+      volumes:  
+      - name: smb-test-volume
+        persistentVolumeClaim:
+          claimName: smb-test-pvc
+      containers:
+      - name: gpu-container
+        image: bikramkgupta/ml-examples:1.0
+        imagePullPolicy: IfNotPresent 
+        resources:
+          limits:
+            nvidia.com/gpu: 1 
+        volumeMounts:  
+        - name: smb-test-volume
+          mountPath: /mnt/data
+      tolerations: 
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+---

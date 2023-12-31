@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: smb-test-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: smb
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: smb-test-pod
+spec:
+  containers:
+  - name: writer
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /mnt/data/testfile; sleep 10; done"]
+    volumeMounts:
+    - name: smb-volume
+      mountPath: "/mnt/data"
+  volumes:
+  - name: smb-volume
+    persistentVolumeClaim:
+      claimName: smb-test-pvc
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: smb-test-pod-2
+spec:
+  containers:
+  - name: writer
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /mnt/data/testfile2; sleep 10; done"]
+    volumeMounts:
+    - name: smb-volume
+      mountPath: "/mnt/data"
+  volumes:
+  - name: smb-volume
+    persistentVolumeClaim:
+      claimName: smb-test-pvc
+---
