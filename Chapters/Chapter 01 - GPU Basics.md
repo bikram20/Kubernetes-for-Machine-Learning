@@ -160,7 +160,7 @@ paperspace@ps3nfhuzbif3:~$ pip install torch torchvision torchaudio
 ```
 
 #### Matrix Multiplication Script
-Save the following script as `mat_mul.py` and run it using Python3.
+Save the following script as `mat_mul.py` (also under Artifacts folder) and run it using Python3.
 
 <details>
 <summary>Matrix Multiplication Script (Click to expand)</summary>
@@ -264,11 +264,11 @@ paperspace@ps3nfhuzbif3:~$
 
 ## GPU Concepts
 
-GPUs are sophisticated systems-on-chips designed for high-efficiency computing. Unlike CPUs, GPUs consist of thousands of simpler processors, each equipped with its own set of registers, dedicated memory, and cache. They do not run an operating system themselves but are controlled through drivers and tools installed on the host OS, such as Linux or Windows.
+GPUs are sophisticated systems-on-chips designed for accelerated computing. Unlike CPUs, GPUs consist of thousands of simpler processors, each equipped with its own set of registers, dedicated memory, and cache. They do not run an operating system themselves but are controlled through drivers and tools installed on the host OS, such as Linux or Windows.
 
 User applications, especially those with parallelizable components, can significantly benefit from GPU acceleration. This is evident in tasks like matrix multiplication, where GPUs can perform computations much faster than traditional CPUs. In the realm of software development, this acceleration is achieved through specialized libraries like CuDNN, optimized for neural network operations, which in turn utilize CUDA (Compute Unified Device Architecture).
 
-Neural networks represent a rapidly expanding area of GPU application. From 2013 to 2020, the size of neural networks has grown exponentially, often by as much as 75 times annually. Given this growth, many neural network models exceed the capacity of a single GPU. To address this, both software and hardware solutions have been developed. On the software side, tools like distributed TensorFlow, PyTorch Distributed Data Parallel (DDP), and Ray are used. For hardware, technologies like NVLink, which connects NVIDIA GPUs within a system, and NVSwitch, which connects GPUs across multiple hosts, are becoming standard in large-scale model training.
+Neural networks represent a rapidly expanding area of GPU application. From 2013 to 2020, the size of neural networks has grown exponentially, often by as much as 75x annually. Given this growth, many neural network models exceed the capacity of a single GPU. To address this, both software and hardware solutions have been developed. On the software side, tools like distributed TensorFlow, PyTorch Distributed Data Parallel (DDP), and Ray are used. For hardware, technologies like NVLink, which connects NVIDIA GPUs within a system, and NVSwitch, which connects GPUs across multiple hosts, are becoming standard in large-scale model training.
 
 Over time, GPUs have seen significant advancements to enhance their efficiency in neural network training and inferencing. These include innovations like 16-bit computation and 8-bit integer-based inferencing. NVIDIA, in particular, has been at the forefront, evolving its GPUs to support these advanced capabilities directly on the chip.
 
@@ -290,11 +290,9 @@ Much like their CPU counterparts, GPUs undergo constant evolution in their micro
 
 In the context of NVIDIA, the last three micro-architectures – Ampere, Lovelace, and Hopper – represent significant milestones in GPU development.
 
-- **Ampere Architecture**: This architecture is known for its balanced improvements in computation, memory bandwidth, and energy efficiency. Popular GPUs like the GeForce RTX 3090, A4000, and A100 fall under this architecture, offering robust performance for both gaming and professional applications.
-
-- **Lovelace Architecture**: (Details about the Lovelace architecture, if available, would be elaborated here, focusing on its unique features or improvements over Ampere.)
-
-- **Hopper Architecture**: Representing the latest in NVIDIA's GPU technology, the Hopper architecture, exemplified by the recently released H-100, introduces new levels of computational efficiency and capabilities, particularly in the realm of AI and large-scale data processing.
+- **Ampere Architecture**: GeForce RTX 3090, A4000, and A100 fall under this architecture.
+- **Lovelace Architecture**: RTX 4090.
+- **Hopper Architecture**: Recently released H-100.
 
 For a deeper understanding of these architectures, one can explore their specific features and innovations on resources like [NVIDIA's microarchitecture Wikipedia page](https://en.wikipedia.org/wiki/Category:Nvidia_microarchitectures).
 
@@ -303,7 +301,7 @@ For a deeper understanding of these architectures, one can explore their specifi
 
 Understanding the specifications of your GPU is crucial for optimizing its performance and aligning it with your computational needs. 
 
-For a detailed overview of your GPU's capabilities, you can refer to its product specification sheet. For instance, the NVIDIA RTX A4000's specifications are available in its datasheet, which provides comprehensive information about its architecture, memory, performance capabilities, and more. 
+For an overview of your GPU's capabilities, you can refer to its product specification sheet. For instance, the NVIDIA RTX A4000's specifications are available in its datasheet, which provides comprehensive information about its architecture, memory, performance capabilities, and more. 
 
 - [NVIDIA RTX A4000 Datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs21/rtx-a4000/nvidia-rtx-a4000-datasheet.pdf)
 
@@ -364,7 +362,7 @@ Total CUDA Cores x Clock Rate x FLOPS per Core
 = 19.2 TeraFLOPS
 ```
 
-This calculation gives us the maximum single-precision performance of the CUDA cores. For more detailed specifications, you can refer to the [A4000 Datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs21/rtx-a4000/nvidia-rtx-a4000-datasheet.pdf).
+This gives us the maximum single-precision performance of the CUDA cores. For the specifications, you can refer to the [A4000 Datasheet](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs21/rtx-a4000/nvidia-rtx-a4000-datasheet.pdf).
 
 Apart from CUDA cores, the Ampere architecture of A4000 also includes tensor cores, which are specialized for certain types of computations like those used in neural networks.
 

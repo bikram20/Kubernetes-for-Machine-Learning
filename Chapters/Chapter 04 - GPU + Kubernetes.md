@@ -1,12 +1,18 @@
 # Chapter 4 - GPU + Kubernetes
-In chapter 3, we discussed how to run GPU-enabled applications inside a container and tried 2 samples applications. In this chapter, we focus on running GPU-enabled apps in a k8s cluster. To keep focus and yet be able to use things in production, we pick microk8s. Microk8s is well-maintained by Canonical (Ubuntu), installs with 1 command (snap) and can be customized. It is also HA-ready by default, so as long as you add >= 3 nodes, you get HA by default. Our setup is opinionated - there is no cluster autoscaling, and we always use a shared storage (Paperspace managed shared storage) for all nodes. 
+In chapter 3, we discussed how to run GPU-enabled applications inside a container and tried 2 samples applications. In this chapter, we focus on running GPU-enabled apps in a k8s cluster. To keep focus and yet be able to use things in production, we pick microk8s. 
 
-In this chapter and next, we will focus on a single node setup. This will allow us to experiment and create a script with necessary commands to get started manually. In chapter 6, we will set up a multi-node HA cluster using ansible.
+**Rationale behind choosing Microk8s**
+- Goal is to self-host kubernetes with less overhead.
+  - Microk8s is well-maintained by Canonical (Ubuntu), installs with 1 command (snap) and can be customized. 
+  - It is also HA-ready by default, so as long as you add >= 3 nodes, you get HA by default. 
+
+Our setup is opinionated - there is no cluster autoscaling, and we always use a shared storage (Paperspace managed shared storage) for all nodes. 
+
+In this chapter and next, we will focus on a single node setup. This will allow us to experiment and create a script with necessary commands to get started manually. In chapter 6, we will set up a multi-node HA cluster with e2e automation using ansible.
 
 **Note: If you do not need MIG (multi-instance GPU), you can choose any GPU hardware.** If you need MIG, then it needs to be [A100 or higher (Ampere architecture+)](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html). 
 
 ## Set up and Explore Microk8s
-
 Recommend to set up a private network, VM, and a shared drive from the console, so you can focus on k8s. Alternately, you can refer to [CLI/API cheatsheet](Scripts/Paperspace-resources-sheatsheet.md) for commands. 
 
 After you are SSH to the VM, install Microk8s using snap. Also install helm3, and set up kubeconfig on the node. All commands are self-explanatory. Feel free to use apt or direct install for every command except microk8s. For microk8s in particular, let us stick to snap.
@@ -28,16 +34,6 @@ sudo usermod -a -G microk8s paperspace
 sudo chown -R paperspace ~/.kube
 chmod 700 ~/.kube/config 
 # You will need to LOGOUT and log back in for kubectl and helm to work.
-```
-
-Also install kubernetes python library - needed for ansible automation.
-
-```shell
-sudo apt-get install python3-pip
-pip3 install kubernetes
-
-# Also need this during automation. It finds the diff between 2 helm releases.
-helm plugin install https://github.com/databus23/helm-diff
 ```
 
 Now we should configure snap to [prevent automatic updates](https://snapcraft.io/docs/managing-updates) to microk8s. That way, we can update using `snap refresh microk8s` manually.
@@ -98,7 +94,7 @@ sudo journalctl -u snap.microk8s.daemon-containerd
 snap restart microk8s.daemon-containerd
 ```
 
-### Access from remote using kubectl
+### Access from remote internet using kubectl
 Update the CSR file to include the external ip address of the VM.
 vi /var/snap/microk8s/current/certs/csr.conf.template
 
@@ -120,7 +116,6 @@ In summary, Microk8s is pretty simple and well-designed software for experiment 
 Note that a few basic software (eg. dns) were not installed by default. Microk8s uses addons to enable the additional software. Addons are wrappers on top of helm, and convenient as long as you review the versions.
 
 ### Customizing addons
-
 [Reference](https://microk8s.io/docs/how-to-manage-addons)
 
 The shell scripts for core addons are here:
