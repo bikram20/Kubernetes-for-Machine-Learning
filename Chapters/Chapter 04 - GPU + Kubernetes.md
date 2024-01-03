@@ -13,7 +13,7 @@ In this chapter and next, we will focus on a single node setup. This will allow 
 **Note: If you do not need MIG (multi-instance GPU), you can choose any GPU hardware.** If you need MIG, then it needs to be [A100 or higher (Ampere architecture+)](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html). 
 
 ## Set up and Explore Microk8s
-Recommend to set up a private network, VM, and a shared drive from the console, so you can focus on k8s. Alternately, you can refer to [CLI/API cheatsheet](Scripts/Paperspace-resources-sheatsheet.md) for commands. 
+Recommend to set up a private network, VM, and a shared drive from the console, so you can focus on k8s. Alternately, you can refer to [CLI/API cheatsheet](Scripts_Artifacts/Paperspace-resources-sheatsheet.md) for commands. 
 
 After you are SSH to the VM, install Microk8s using snap. Also install helm3, and set up kubeconfig on the node. All commands are self-explanatory. Feel free to use apt or direct install for every command except microk8s. For microk8s in particular, let us stick to snap.
 
@@ -211,7 +211,7 @@ kubectl create secret generic smbcreds \
   --from-literal=password=$smb_password
 
 # A copy of smb-storageclass.yml is under Script directory in the current repo
-cp ./Scripts/smb-storageclass.yml /tmp/smb-storageclass.yml
+cp ./Scripts_Artifacts/smb-storageclass.yml /tmp/smb-storageclass.yml
 kubectl get storageclass smb
 # NOTE - you need to update the path to your shared drive!
 kubectl apply -f /tmp/smb-storageclass.yml
@@ -219,11 +219,11 @@ kubectl apply -f /tmp/smb-storageclass.yml
 
 To test an example:
 ```shell
-kubectl apply -f Scripts/smb-test.yaml
+kubectl apply -f Scripts_Artifacts/smb-test.yaml
 kubectl exec smb-test-pod -- cat /mnt/data/testfile
 kubectl exec smb-test-pod -- cat /mnt/data/testfile2
 kubectl exec smb-test-pod-2 -- cat /mnt/data/testfile
-kubectl delete -f Scripts/smb-test.yaml
+kubectl delete -f Scripts_Artifacts/smb-test.yaml
 # If pods do not become active and PVC is still not bound, then check the SMB controller pod log. 
 # Most likely culprit is either you did not specify credentials or the path in the storageclass is incorrect.
 ```

@@ -7,8 +7,10 @@ It is expected that you are familiar with automation tools like ansible. In gene
 ```shell
 git clone <this_repo>
 cd Ansible
-Set up your inventory (ip addresses of your Paperspace VMs) in the inventory file.
-In the cloned Ansible/roles/paperspace_rw_storage_class/vars/main.yml file, set up your Paperspace shared drive credentials. Note that you will need to rename/copy main-copyme.yml file.
+
+# Set up your inventory (ip addresses of your Paperspace VMs) in the inventory file.
+# In the cloned Ansible/roles/paperspace_rw_storage_class/vars/main.yml file, set up your Paperspace shared drive credentials. Note that you will need to rename/copy main-copyme.yml file.
+# In the cloned Scripts_Artifacts/smb_storageclass.yml file, set up your Paperspace shared drive network path.
 ```
 
 That's all you need for default setup. Now you can install the whole cluster with GPU setup, shared drive and addons using the following.

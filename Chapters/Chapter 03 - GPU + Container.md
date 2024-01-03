@@ -212,7 +212,7 @@ total 427704
 paperspace@ps3nfhuzbif3:~/Scripts$ 
 ```
 
-Now we can run the spam_predict.py script. Make sure review the path of the model in the script.
+Now we can run the spam_predict.py script (under Scripts_Artifacts folder). Make sure review the path of the model in the script.
 
 
 ```shell

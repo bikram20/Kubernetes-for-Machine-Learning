@@ -160,7 +160,7 @@ paperspace@ps3nfhuzbif3:~$ pip install torch torchvision torchaudio
 ```
 
 #### Matrix Multiplication Script
-Save the following script as `mat_mul.py` (also under Artifacts folder) and run it using Python3.
+Save the following script as `mat_mul.py` (also under Scripts_Artifacts folder) and run it using Python3.
 
 <details>
 <summary>Matrix Multiplication Script (Click to expand)</summary>
