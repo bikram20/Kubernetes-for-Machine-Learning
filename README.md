@@ -13,13 +13,14 @@ Known Limitations: No cluster auto-scaler.
 - [1. Basics of GPU](Chapters/Chapter%201%20-%20GPU%20Basics.md)
 - [2. MLOps and Developer Experience](Chapters/Chapter%202%20-%20MLOps%20and%20Developer%20Experience.md)
 - [3. GPU + Container](Chapters/Chapter%203%20-%20GPU%20+%20Container.md)
-- [4. GPU + Kubernetes](Chapters/Chapter%204%20-%20GPU%20+%20Kubernetes)
-- [5. Multi-instance GPU](#5-multi-instance-gpu)
-- [6. Ansible Setup](#6-ansible-setup)
-- [7.DVC]
-- [8. MLFlow]
-- [9. Kubeflow](#7-kubeflow)
-- [10. Ray (Future Content)](#8-ray-future)
+- [4. GPU + Kubernetes](Chapters/Chapter%204%20-%20GPU%20+%20Kubernetes.md)
+- [5. Multi-instance GPU](Chapters/Chapter%205%20-%20GPU%20Sharinng.md)
+- [6. Ansible Setup](Chapters/Chapter%206%20-%20Ansible%20Setup.md)
+- [7.DVC](Chapters/Chapter%207%20-%20DVC.md)
+- [8. MLFlow](Chapters/Chapter%208%20-%20MLflow.md)
+- [9. Metaflow](Chapters/Chapter%209%20-%20Metaflow.md)
+- [10. Kubeflow](Chapters/Chapter%2010%20-%20Kubeflow.md)
+- [11. Ray](Chapters/Chapter%2011%20-%20Ray.md)
 
 ### 1. Basics of GPU
 Learn the fundamentals of GPU technology, with a focus on NVIDIA GPUs. We'll cover hardware checks, driver installation, and dive into GPU compute, memory, and scheduling, including hands-on command-line examples. GPU hardware is installed using recommended ubuntu-drivers utility.
@@ -40,16 +41,14 @@ Learn to optimize Kubernetes for complex scenarios like multi-instance GPUs, enh
 Set up a multi-node Microk8s cluster w/ shared storage on Paperspace using Ansible with opinionated setting (addons, automatic updated disabled). Ansible is installed using Brew on a client host (mac).
 
 ### 7 DVC (Coming soon)
-Create a reproducible ML workflow with DVC. Hands-on. 
 
-### 7. MLFlow (Coming soon)
-Add MLFlow to the previous setup.
+### 8. MLFlow (Coming soon)
 
-### 8. Kubeflow (Coming soon)
-Dive into Kubeflow within Kubernetes. We'll look at examples like hyperparameter tuning and working with Large Language Models, aligning with current ML trends.
+### 10. Metaflow (Coming soon)
 
-### 9. Ray (Coming soon)
-Future content will focus on Ray for distributed ML, addressing scalability in data-heavy environments.
+### 10. Kubeflow (Coming soon)
+
+### 11. Ray (Coming soon)
 
 ## Conclusion
 We balance theory with practical application, offering hands-on examples and exercises. The content is kept current, aligning with the latest in Kubernetes and ML.
