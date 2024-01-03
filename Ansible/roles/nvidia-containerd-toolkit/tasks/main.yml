@@ -1,0 +1,57 @@
+---
+# tasks file for roles/nvidia-containerd-toolkit
+- name: Add NVIDIA GPG key
+  become: yes
+  ansible.builtin.apt_key:
+    url: https://nvidia.github.io/nvidia-container-runtime/gpgkey
+    state: present
+
+- name: Determine OS distribution
+  ansible.builtin.shell: ". /etc/os-release; echo $ID$VERSION_ID"
+  register: os_distribution
+  changed_when: false
+
+- name: Add NVIDIA container runtime repository
+  become: yes
+  ansible.builtin.get_url:
+    url: "https://nvidia.github.io/nvidia-container-runtime/{{ os_distribution.stdout }}/nvidia-container-runtime.list"
+    dest: /etc/apt/sources.list.d/nvidia-container-runtime.list
+  notify: update cache
+
+- name: Install NVIDIA container runtime
+  become: yes
+  ansible.builtin.apt:
+    name: nvidia-container-runtime
+    state: present
+    update_cache: yes
+
+- name: Set default_runtime_name to nvidia in containerd-template.toml
+  tags: set_default_runtime_name
+  ansible.builtin.lineinfile:
+    path: /var/snap/microk8s/current/args/containerd-template.toml
+    regexp: '^\s*default_runtime_name\s*=\s*"\${RUNTIME}"'
+    line: 'default_runtime_name = "nvidia"'
+    backrefs: yes
+
+- name: Insert NVIDIA runtime configuration in containerd-template.toml
+  tags: set_default_runtime_name
+  ansible.builtin.blockinfile:
+    path: /var/snap/microk8s/current/args/containerd-template.toml
+    insertafter: 'default_runtime_name = "nvidia"'
+    block: |
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+          privileged_without_host_devices = false
+          runtime_engine = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+            BinaryName = "nvidia-container-runtime"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK for NVIDIA runtime"
+  register: grep_check
+
+- name: Restart containerd service using snap
+  become: yes
+  ansible.builtin.command: "snap restart microk8s.daemon-containerd"
+  when: grep_check.changed
+

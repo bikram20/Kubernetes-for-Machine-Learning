@@ -1,0 +1,50 @@
+---
+# tasks file for role/test-a-gpu-container
+- name: Create a GPU-enabled pod
+  ansible.builtin.shell: |
+    kubectl apply -f -
+  args:
+    stdin: |
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: gpu-pod
+      spec:
+        restartPolicy: Never
+        containers:
+          - name: cuda-container
+            image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+        tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+
+# Pod will never to to READY state, it will just COMPLETED as a job
+- name: Wait for pod to complete
+  ansible.builtin.shell: kubectl get pod gpu-pod -o=jsonpath='{.status.phase}'
+  register: pod_status
+  until: pod_status.stdout == "Succeeded"
+  retries: 10
+  delay: 10
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Check container logs for success message
+  ansible.builtin.command: kubectl logs gpu-pod
+  register: container_logs
+  until: "'Test PASSED' in container_logs.stdout"
+  retries: 10
+  delay: 10
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Fail the playbook if test failed on node 0
+  fail:
+    msg: "GPU container test failed on node 0. Container logs: {{ container_logs.stdout }}"
+  when:
+    - inventory_hostname == groups['microk8s_cluster'][0]
+    - "'Test PASSED' not in container_logs.stdout"
+

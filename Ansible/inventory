@@ -1,0 +1,8 @@
+[microk8s_cluster:vars]
+ansible_user=paperspace
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[microk8s_cluster]
+node1 ansible_host=184.105.4.198
+node2 ansible_host=184.105.4.224
+node3 ansible_host=184.105.3.104

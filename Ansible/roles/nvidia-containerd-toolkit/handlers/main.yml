@@ -1,0 +1,7 @@
+---
+# handlers file for roles/nvidia-containerd-toolkit
+- name: update cache
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+

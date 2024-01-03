@@ -1,0 +1,16 @@
+---
+- name: Start MicroK8s on all Hosts
+  hosts: all
+  become: yes  
+
+  tasks:
+    - name: Check if MicroK8s is running
+      shell: microk8s status
+      register: microk8s_status
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Start MicroK8s
+      command: microk8s start
+      when: "'microk8s is not running' in microk8s_status.stdout"
+

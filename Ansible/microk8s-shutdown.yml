@@ -1,0 +1,21 @@
+---
+- name: Stop MicroK8s and Poweroff Hosts
+  hosts: all
+  become: yes  
+
+  tasks:
+    - name: Stop MicroK8s
+      command: microk8s stop
+
+    - name: Wait for 10 seconds
+      pause:
+        seconds: 10
+
+    - name: Power off the machine
+      become: yes
+      command: poweroff
+      async: 10
+      poll: 0
+      ignore_errors: yes
+
+

@@ -1,0 +1,26 @@
+---
+# tasks file for roles/nvidia-device-plugin
+- name: Copy timesharing-configmap.yaml to remote node
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/timesharing-configmap.yaml"
+    dest: "/tmp/timesharing-configmap.yaml"
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Add NVIDIA device plugin Helm repository
+  ansible.builtin.command: helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Update Helm repositories
+  ansible.builtin.command: helm repo update
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Install or Upgrade NVIDIA device plugin
+  ansible.builtin.command: >
+    helm upgrade -i nvdp nvdp/nvidia-device-plugin
+    --namespace nvidia-device-plugin
+    --create-namespace
+    --version 0.14.3
+    --set gfd.enabled=true
+    --set-file config.map.config=/tmp/timesharing-configmap.yaml
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+

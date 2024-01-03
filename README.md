@@ -6,6 +6,8 @@ We'll use MicroK8s on Ubuntu 22.04, primarily on Paperspace (DigitalOcean), givi
 
 This is an intermediate-level tutorial (201 level). It assumes you're familiar with containers, Kubernetes, devops, systems/networking, and basic machine learning concepts.
 
+Known Limitations: No cluster auto-scaler. 
+
 
 ## Table of Contents
 - [1. Basics of GPU](Chapters/Chapter%201%20-%20GPU%20Basics.md)

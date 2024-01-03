@@ -1,0 +1,68 @@
+---
+- name: Add CSI Driver SMB Helm repo
+  kubernetes.core.helm_repository:
+    name: csi-driver-smb
+    repo_url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Install/Upgrade CSI Driver SMB
+  shell: >
+    /snap/microk8s/current/bin/helm upgrade csi-driver-smb csi-driver-smb/csi-driver-smb
+    --namespace kube-system
+    --version v1.13.0
+    --set linux.kubelet="/var/snap/microk8s/common/var/lib/kubelet"
+    --install
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+  register: helm_output
+  failed_when: '"Error" in helm_output.stderr'
+
+# Using helm module in ansible did not work for me. Mounting error (readonly filesystem)
+#- name: Install CSI Driver SMB
+#  kubernetes.core.helm:
+#    name: csi-driver-smb
+#    chart_ref: csi-driver-smb/csi-driver-smb
+#    release_namespace: kube-system
+#    chart_version: v1.13.0
+#    release_values:
+#      linux.kubelet: "/var/snap/microk8s/common/var/lib/kubelet"
+#  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Create Secret for SMB Credentials
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: smbcreds
+        namespace: default
+      data:
+        username: "{{ smb_username | b64encode }}"
+        password: "{{ smb_password | b64encode }}"
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Print the rendered content
+  debug:
+    msg: "{{ lookup('template', 'files/smb-storageclass.yml.j2') }}"
+
+- name: Create SMB StorageClass from template
+  template:
+    src: "{{ role_path }}/files/smb-storageclass.yml.j2"
+    dest: "/tmp/smb-storageclass.yml"
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Check if SMB StorageClass exists
+  k8s_info:
+    kind: StorageClass
+    name: smb
+  register: storageclass_check
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Create SMB StorageClass
+  k8s:
+    state: present
+    src: "/tmp/smb-storageclass.yml"
+  when:
+    - inventory_hostname == groups['microk8s_cluster'][0]
+    - not storageclass_check.resources
+

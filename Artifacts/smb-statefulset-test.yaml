@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: smb-test-statefulset
+spec:
+  serviceName: "smb"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smb
+  template:
+    metadata:
+      labels:
+        app: smb
+    spec:
+      containers:
+      - name: writer
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do date >> /mnt/data/testfile; sleep 10; done"]
+        volumeMounts:
+        - name: smb-volume
+          mountPath: "/mnt/data"
+  volumeClaimTemplates:
+  - metadata:
+      name: smb-volume
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: "smb"
+      resources:
+        requests:
+          storage: 1Gi

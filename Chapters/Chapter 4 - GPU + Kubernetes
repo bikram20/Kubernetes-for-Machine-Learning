@@ -104,6 +104,15 @@ vi /var/snap/microk8s/current/certs/csr.conf.template
 
 Microk8s will automatically pick up the change and restart API server after regenerating certs. Then you can use "microk8s config" and copy it to a remote system.
 
+If you run into issues, the other option (not recommended) for development work is to bypass TLS verification in ~/.kube/config, in the cluster section, right below the server name/ip.
+
+```
+- cluster:
+    server: https://<ip>:<port>
+    insecure-skip-tls-verify: true
+  name: microk8s-cluster
+
+```
 
 In summary, Microk8s is pretty simple and well-designed software for experiment and production.
 

@@ -1,0 +1,25 @@
+---
+# tasks file for roles/system-setup
+
+- name: Check user and environment
+  shell: |
+    echo "User: $(whoami), PATH: $PATH"
+  register: user_env
+  changed_when: false
+
+- name: Debug user and environment
+  debug:
+    msg: "{{ user_env.stdout }}"
+
+- name: Upgrade all packages to the latest version - redundant we did so during driver install
+  become: yes
+  apt:
+    upgrade: safe
+    update_cache: yes
+
+- name: Install snapd
+  become: yes
+  apt:
+    name: snapd
+    state: latest
+

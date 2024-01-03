@@ -1,0 +1,83 @@
+---
+# tasks file for roles/microk8s-node-install
+- name: Install MicroK8s snap
+  become: yes
+  snap:
+    name: microk8s
+    classic: yes
+
+- name: Disable automatic updates for MicroK8s
+  become: yes
+  shell: |
+    sudo snap refresh --hold microk8s
+  args:
+    executable: /bin/bash
+
+
+- name: Create symbolic link for kubectl
+  become: yes
+  file:
+    src: /snap/microk8s/current/kubectl
+    dest: /usr/local/bin/kubectl
+    state: link
+    force: yes
+
+- name: Create symbolic link for helm
+  become: yes
+  file:
+    src: /snap/microk8s/current/bin/helm
+    dest: /usr/local/bin/helm
+    state: link
+    force: yes
+
+
+- name: Ensure MicroK8s bin is in PATH in .bashrc for a specific user
+  tags: add_microk8s_bin_to_path
+  become_user: paperspace
+  lineinfile:
+    path: "/home/paperspace/.bashrc"
+    line: 'export PATH=$PATH:/snap/microk8s/current/bin'
+    create: no
+    state: present
+    regexp: '^export PATH=.*:/snap/microk8s/current/bin.*$'
+    backup: yes
+
+- name: Install required Python packages for k8s module
+  become: yes
+  apt:
+    name: python3-pip
+    state: present
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Install Kubernetes Python library
+  pip:
+    name: kubernetes
+  when: inventory_hostname == groups['microk8s_cluster'][0]
+
+- name: Get list of installed helm plugins
+  become_user: paperspace
+  shell: "{{ helm_command }} plugin list"
+  register: helm_plugins
+  changed_when: false
+  vars:
+    helm_command: /snap/microk8s/current/bin/helm
+
+
+
+#- name: Debug helm plugin list
+#  debug:
+#    msg: "{{ helm_plugins.stdout_lines }}"
+
+- name: Install helm-diff plugin if not already installed
+  become_user: paperspace
+  shell: "{{ helm_command }} plugin install https://github.com/databus23/helm-diff"
+  when: "'diff' not in helm_plugins.stdout"
+  vars:
+    helm_command: /snap/microk8s/current/bin/helm
+
+- name: Enable basic add-ons
+  become: yes
+  shell: microk8s enable {{ item }}
+  loop:
+    - dns
+    - hostpath-storage

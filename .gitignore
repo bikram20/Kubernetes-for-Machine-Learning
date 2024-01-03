@@ -1,0 +1,45 @@
+Ansible/*.log
+Ansible/roles/paperspace_rw_storage_class/vars/main.yml
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore files that are generated during runtime or are specific to a developer's environment
+*.retry
+
+# Ignore any compiled python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore temporary files and directories
+*~
+.temp-*
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Exclude environment-specific files
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Exclude potential secret files
+*.vault
+
+# Kubernetes specific
+*.kube
+

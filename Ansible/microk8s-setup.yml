@@ -1,0 +1,13 @@
+---
+- name: Install and Configure MicroK8s Cluster
+  hosts: microk8s_cluster
+  roles:
+    - nvidia-host-tools               # Host driver. Does not include fabric manager yet
+    - system-setup                    # Basic system readiness and install snap
+    - microk8s-node-install           # Install microk8s on each node
+    - microk8s-cluster-setup          # Setup the cluster - can be N nodes, starting with 1
+    - microk8s-addons                 # Set up basic addons (eg. metric-server and observability)
+    - paperspace_rw_storage_class     # Setup Paperspace shared drive (SMB CIS)
+    - nvidia-containerd-toolkit       # Add NVIDIA container toolkit for GPU/containerd
+    - nvidia-device-plugin            # Add NVIDIA device plugin for GPU/k8s
+    - test-a-gpu-container            # Apply a basic manifest. Check that container comes up. Run nvidia-smi inside the container

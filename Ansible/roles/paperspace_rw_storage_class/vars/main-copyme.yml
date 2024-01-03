@@ -1,0 +1,9 @@
+---
+# vars file for roles/paperspace_rw_storage_class
+# Rename to mail.yml
+
+smb_share: "//<ip_addr of network drive>/<path>"    # Get it from Paperspace console - shared drive
+smb_username: "<username of shared drive"
+smb_password: "<password of shared drive>"
+
+

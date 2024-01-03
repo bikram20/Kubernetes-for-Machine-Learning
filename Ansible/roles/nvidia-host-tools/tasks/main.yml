@@ -1,0 +1,51 @@
+---
+# tasks file for role/nvidia-host-tools
+- name: Update apt repository cache
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Upgrade apt packages safely
+  become: yes
+  apt:
+    upgrade: safe
+
+- name: Determine the recommended NVIDIA GPU driver
+  become: yes
+  shell: ubuntu-drivers list --gpgpu --recommended | awk '{print $1}'
+  register: recommended_driver
+
+- name: Install the recommended NVIDIA GPU driver
+  become: yes
+  apt:
+    name: "{{ recommended_driver.stdout }}"
+    state: present
+    update_cache: yes
+  register: gpu_driver_install
+
+- name: Install corresponding NVIDIA utils package
+  become: yes
+  apt:
+    name: "{{ recommended_driver.stdout | regex_replace('driver', 'utils') }}"
+    state: present
+  register: nvidia_utils_install
+
+- name: Reboot the machine
+  become: yes
+  reboot:
+  when: gpu_driver_install is changed or nvidia_utils_install is changed
+
+- name: Verify NVIDIA driver installation
+  become: yes
+  shell: nvidia-smi
+  register: nvidia_smi_output
+  ignore_errors: yes
+
+- name: Fail if driver or CUDA information is missing
+  fail:
+    msg: "NVIDIA driver or CUDA information not found on {{ inventory_hostname }}. Please check the logs."
+  when: >-
+    nvidia_smi_output.stdout is not defined or
+    'Driver Version:' not in nvidia_smi_output.stdout or
+    'CUDA Version:' not in nvidia_smi_output.stdout
+
