@@ -11,7 +11,7 @@ This chapter assumes that you have a basic understanding of software development
 
 The process of software development has evolved into a well-defined and mature system. The following diagram illustrates the typical flow of traditional software development:
 
-![Software Development Process](Images/developerexperience-1.jpg)
+![Software Development Process](../Images/developerexperience-1.jpg)
 
 
 1. **Primary Assets**: In traditional software development, the core assets are the code and its associated configuration settings.
@@ -52,7 +52,7 @@ In reality, while almost all product development are embacing ML to certain exte
 
 The following diagram illustrates the typical flow of ML software development.
 
-![Software Development Process](Images/developerexperience-2.jpg)
+![Software Development Process](../Images/developerexperience-2.jpg)
 
 1. **Data as a Core Asset**: Data is the foundation of any machine learning project. Managing, processing, and versioning data become as crucial as managing code.
 
