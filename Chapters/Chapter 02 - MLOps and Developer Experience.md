@@ -80,69 +80,69 @@ The following table lists a few widely used tools for MLOps on Kubernetes. It is
 #### How DVC fits into DevOps and MLOps
 Integrating DVC with CI/CD creates a robust and reproducible ML development process.
 
-**Developer Interaction:**
-* **Easy Integration:** Integrates seamlessly with existing Git workflow.
-* **Track files:** Use `dvc add` to track large datasets and model files.
-* **Data Versioning:** Create and manage different versions of data and models.
-* **Remote Storage:** Connect to cloud storage (AWS S3, Azure Blob Storage, etc.) for data storage.
-* **Familiar Experience:** Versioning process similar to Git, making it easy to learn.
+##### Developer Interaction:
+* Easy Integration: Integrates seamlessly with existing Git workflow.
+* Track files: Use `dvc add` to track large datasets and model files.
+* Data Versioning: Create and manage different versions of data and models.
+* Remote Storage: Connect to cloud storage (AWS S3, Azure Blob Storage, etc.) for data storage.
+* Familiar Experience: Versioning process similar to Git, making it easy to learn.
 
-**CI/CD Pipelines:**
-* **Automates Data and Model Versioning:** Ensures pipelines use correct versions for testing and deployment.
-* **Reproducible Workflows:** Guarantees consistent results across pipeline runs.
-* **Improved Efficiency:** Automates data and model handling, saving developer time.
-* **CI Integration:** Use `dvc pull` to retrieve specific data/model versions for testing.
-* **CD Integration:** Use `dvc` to deploy correct version of models with application.
+##### CI/CD Pipelines:
+* Automates Data and Model Versioning: Ensures pipelines use correct versions for testing and deployment.
+* Reproducible Workflows: Guarantees consistent results across pipeline runs.
+* Improved Efficiency: Automates data and model handling, saving developer time.
+* CI Integration: Use `dvc pull` to retrieve specific data/model versions for testing.
+* CD Integration: Use `dvc` to deploy correct version of models with application.
 
 #### How MLflow fits into DevOps and MLOps
 MLflow empowers developers to manage their ML projects effectively, fostering experimentation, collaboration, and reliable results.
 
-**Developer Interaction:**
-* **Streamlines Workflow:** Provides a centralized platform for managing your entire ML lifecycle.
-* **Easy Integration:** Integrate seamlessly with existing projects or start new ones using MLflow templates.
-* **Four Key Components:**
-    * **MLflow Tracking:** Logs experiments (parameters, code, metrics, outputs) for comparison and visualization.
-    * **MLflow Projects:** Packages data science code for reproducibility and sharing.
-    * **MLflow Models:** Offers a standard format for model packaging.
-    * **Model Registry:** Central repository for versioning and managing models.
+##### Developer Interaction:
+* Streamlines Workflow: Provides a centralized platform for managing your entire ML lifecycle.
+* Easy Integration: Integrate seamlessly with existing projects or start new ones using MLflow templates.
+* Four Key Components:
+    * MLflow Tracking: Logs experiments (parameters, code, metrics, outputs) for comparison and visualization.
+    * MLflow Projects: Packages data science code for reproducibility and sharing.
+    * MLflow Models: Offers a standard format for model packaging.
+    * Model Registry: Central repository for versioning and managing models.
 
-**CI/CD Pipelines:**
-* **Automates Workflow:** Integrates seamlessly with CI/CD pipelines for automated tracking and deployment.
-* **CI Integration:** Log new experiments with every code push, preserving run history.
-* **CD Integration:** Automate model deployment from staging to production based on performance or validation.
+##### CI/CD Pipelines:
+* Automates Workflow: Integrates seamlessly with CI/CD pipelines for automated tracking and deployment.
+* CI Integration: Log new experiments with every code push, preserving run history.
+* CD Integration: Automate model deployment from staging to production based on performance or validation.
 
-**Experiment Management:**
-* **Log Experiments:** Track all runs with parameters, code versions, metrics, and results.
-* **Compare Runs:** Visually compare experiments to understand changes and impact.
-* **Reproducible Results:** Track everything for easy replication of past runs.
-* **Collaboration:** Share experiments with your team for transparency and efficiency.
-* **Centralized Storage:** Keep all experiment data in one place for easy access and analysis.
+##### Experiment Management:
+* Log Experiments: Track all runs with parameters, code versions, metrics, and results.
+* Compare Runs: Visually compare experiments to understand changes and impact.
+* Reproducible Results: Track everything for easy replication of past runs.
+* Collaboration: Share experiments with your team for transparency and efficiency.
+* Centralized Storage: Keep all experiment data in one place for easy access and analysis.
 
 
 #### How Metaflow fits into DevOps and MLOps
 Metaflow is tailored to streamline and optimize machine learning workflows, aligning well with DevOps and MLOps practices. It offers a unique combination of tools and features to facilitate efficient development, testing, deployment, and maintenance of ML models.
 
-**Developer Interaction:**
-* **Workflow Simplification:** Provides a comprehensive framework for building and managing complex data flows in ML projects.
-* **Scalable and Flexible Execution:** Allows for easy scaling of ML models across different environments, from local development to cloud deployment.
-* **Comprehensive Tracking:** Supports detailed versioning and tracking of data, code, models, and entire workflows.
+##### Developer Interaction:
+* Workflow Simplification: Provides a comprehensive framework for building and managing complex data flows in ML projects.
+* Scalable and Flexible Execution: Allows for easy scaling of ML models across different environments, from local development to cloud deployment.
+* Comprehensive Tracking: Supports detailed versioning and tracking of data, code, models, and entire workflows.
 
-**Key Features:**
-* **Data Flow Orchestration:** Simplifies the design and management of data science workflows, ensuring smooth transitions and operational efficiency.
-* **Robust Execution Environments:** Facilitates containerization and offers compatibility with various backends like AWS, enhancing flexibility and scalability.
-* **Enhanced Experiment Tracking and Debugging:** Provides tools for tracking entire workflows and improved debugging, aiding in reproducibility and consistency.
+##### Key Features:
+* Data Flow Orchestration: Simplifies the design and management of data science workflows, ensuring smooth transitions and operational efficiency.
+* Robust Execution Environments: Facilitates containerization and offers compatibility with various backends like AWS, enhancing flexibility and scalability.
+* Enhanced Experiment Tracking and Debugging: Provides tools for tracking entire workflows and improved debugging, aiding in reproducibility and consistency.
 
-**CI/CD Pipelines:**
-* **Automated Workflow Integration:** Metaflow can be integrated into CI/CD pipelines, automating various stages of ML model development and deployment.
-* **Continuous Integration (CI):** Facilitates the incorporation of data science experiments into the broader software development lifecycle, enabling version control and automated testing.
-* **Continuous Deployment (CD):** Supports automated deployment of models, ensuring smooth transition from staging to production with robust validation mechanisms.
+##### CI/CD Pipelines:
+* Automated Workflow Integration: Metaflow can be integrated into CI/CD pipelines, automating various stages of ML model development and deployment.
+* Continuous Integration (CI): Facilitates the incorporation of data science experiments into the broader software development lifecycle, enabling version control and automated testing.
+* Continuous Deployment (CD): Supports automated deployment of models, ensuring smooth transition from staging to production with robust validation mechanisms.
 
-**Experiment Management:**
-* **Detailed Tracking:** Enables comprehensive tracking of experiments, including data, parameters, code versions, and results.
-* **Workflow Comparison:** Provides capabilities to compare different workflows and understand their impacts, fostering a deeper understanding of model performance.
-* **Reproducibility:** Ensures that all aspects of ML experiments are tracked and versioned, making it easier to replicate and validate results.
-* **Team Collaboration:** Enhances collaboration among data scientists by enabling sharing and reviewing of workflows and experiments.
-* **Centralized Management:** Offers centralized management of workflows, models, and experiments, streamlining the process of accessing and analyzing ML project components.
+##### Experiment Management:
+* Detailed Tracking: Enables comprehensive tracking of experiments, including data, parameters, code versions, and results.
+* Workflow Comparison: Provides capabilities to compare different workflows and understand their impacts, fostering a deeper understanding of model performance.
+* Reproducibility: Ensures that all aspects of ML experiments are tracked and versioned, making it easier to replicate and validate results.
+* Team Collaboration: Enhances collaboration among data scientists by enabling sharing and reviewing of workflows and experiments.
+* Centralized Management: Offers centralized management of workflows, models, and experiments, streamlining the process of accessing and analyzing ML project components.
 
 In summary, Metaflow integrates into DevOps and MLOps ecosystems by offering robust workflow management, experiment tracking, and scalable deployment solutions. Its emphasis on reproducibility, scalability, and collaboration makes it an essential tool for modern ML teams.
 
@@ -150,28 +150,27 @@ In summary, Metaflow integrates into DevOps and MLOps ecosystems by offering rob
 #### How Kubeflow fits into DevOps and MLOps
 Kubeflow offers a comprehensive, Kubernetes-based platform for managing the entire ML lifecycle. It’s particularly beneficial for scalable and complex ML projects, providing flexibility in tooling and infrastructure.
 
-#### Developer Interaction with Kubeflow
-- **Installation and Setup:** Begins with setting up Kubeflow on a Kubernetes cluster.
-- **Centralized ML Workflow:** Provides a unified interface for managing diverse ML tasks.
-- **Pipeline Creation:** Utilize Kubeflow Pipelines for creating and managing end-to-end ML workflows.
-- **Jupyter Notebooks:** Offers integrated Jupyter notebooks for interactive development and experimentation.
-- **Component Integration:** Seamlessly integrates various components like model training, hyperparameter tuning, and serving.
-- **Scalability:** Leverages Kubernetes for scaling ML workflows, suitable for large-scale ML projects.
+##### Developer Interaction with Kubeflow
+- Installation and Setup: Begins with setting up Kubeflow on a Kubernetes cluster.
+- Centralized ML Workflow: Provides a unified interface for managing diverse ML tasks.
+- Pipeline Creation: Utilize Kubeflow Pipelines for creating and managing end-to-end ML workflows.
+- Jupyter Notebooks: Offers integrated Jupyter notebooks for interactive development and experimentation.
+- Component Integration: Seamlessly integrates various components like model training, hyperparameter tuning, and serving.
+- Scalability: Leverages Kubernetes for scaling ML workflows, suitable for large-scale ML projects.
 
-#### Kubeflow in CI/CD Pipelines
-- **Automated Workflows:** Facilitates automation of ML workflows in CI/CD pipelines.
-- **Consistent Deployment:** Ensures consistent deployment environments using Kubernetes.
-- **Pipeline Versioning:** Tracks different versions of ML pipelines, aiding in reproducibility.
-- **Continuous Training:** Supports continuous training paradigms, automatically retraining models with new data.
-- **Model Deployment:** Streamlines the deployment process with tools for model serving and monitoring.
+##### Kubeflow in CI/CD Pipelines
+- Automated Workflows: Facilitates automation of ML workflows in CI/CD pipelines.
+- Consistent Deployment: Ensures consistent deployment environments using Kubernetes.
+- Pipeline Versioning: Tracks different versions of ML pipelines, aiding in reproducibility.
+- Continuous Training: Supports continuous training paradigms, automatically retraining models with new data.
+- Model Deployment: Streamlines the deployment process with tools for model serving and monitoring.
 
-#### Managing Experiments with Kubeflow
-- **Experiment Tracking:** Track and compare experiments using Kubeflow's UI.
-- **Hyperparameter Tuning:** Utilize Katib for automated hyperparameter tuning and optimization.
-- **Model Experimentation:** Allows for extensive model experimentation with different frameworks.
-- **Pipeline Experimentation:** Supports experimentation with different pipeline configurations.
-- **Metrics and Monitoring:** Provides tools for monitoring experiments and gathering key performance metrics.
-
+##### Managing Experiments with Kubeflow
+- Experiment Tracking: Track and compare experiments using Kubeflow's UI.
+- Hyperparameter Tuning: Utilize Katib for automated hyperparameter tuning and optimization.
+- Model Experimentation: Allows for extensive model experimentation with different frameworks.
+- Pipeline Experimentation: Supports experimentation with different pipeline configurations.
+- Metrics and Monitoring: Provides tools for monitoring experiments and gathering key performance metrics.
 
 
 ### Recommendations for ML Development Workflow
