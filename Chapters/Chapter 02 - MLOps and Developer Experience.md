@@ -28,42 +28,100 @@ The process of software development has evolved into a well-defined and mature s
 
 In contrast to traditional software development, machine learning development introduces unique challenges and complexities. Unlike traditional development, where the primary assets are code and configuration, machine learning development integrates additional critical components like data, model training, evaluation, and deployment.
 
-### Day in the life of an ML engineer
-An ML Model is the product. Model is a binary blob (bunch of weights in a compressed form). Model is not an executable. You run the model with the right tool/algorithm that you used to build it. So there is a script to train the model and script to run it. 
+
+### Day in the Life of a Data Scientist
+A day in the life of a data scientist revolves around the central task of developing and refining machine learning models. These models are essentially a collection of optimized parameters and weights, relying on a blend of dataset and scripts for training and deployment.
 
 #### Data Management and Experimentation
-An ML engineer often starts by managing and preprocessing data (e.g. Pandas, NumPy, Spark). This data feeds into building and improving models. So it makes sense to version the data for reproducibility, troubleshooting etc. Depending on the project, the data may be a few MB to TB. For example, DVC (https://dvc.org) is a popular tool for data version control and provides a git-native experience. 
+The journey of a data scientist typically begins with the crucial task of managing and preprocessing data. This process involves transforming raw data into a format suitable for analysis and model building, which can be both challenging and time-consuming. The volume of data managed by data scientists can range from a few megabytes to terabytes, presenting unique challenges in terms of storage, processing, and versioning.
 
-Just like software, Experimentation is a constant routine in ML model development. Jupyter Notebooks are widely used for prototyping and exploratory analysis. But if you have built, tried and tested 100 different models in the last 3 months, how will you track the performance and history? Also how will you reproduce a model if you need to go back? For example, MLflow (https://mlflow.org) open-source platform tracks experiments, logs metrics, and manages models, providing a central hub for ML development.
+A model is learned from data. Hence data versioning becomes essential for reproducibility and troubleshooting in machine learning projects. It helps in tracking changes, experimenting with different datasets, and ensuring consistency across various stages of model development.
 
-As the data management and experimentation is an ongoing and repetitive task, it can be automated through Kubeflow pipeline or Airflow, creating reproducible execution steps. This also saves a lot of time from manual errors due to incorrect versions of different softwares (eg. CUDA, Pytorch).
+Experimentation is a constant routine in machine learning model development. Prototyping and exploratory analysis are often done in interactive environments, enabling quick iterations and visualizations. However, tracking the performance history and maintaining reproducibility across potentially hundreds of experiments over time can be daunting. A centralized system for experiment tracking and model management is critical to maintain order and efficiency in this process.
+
+Automating data management and experimentation tasks is a key strategy for enhancing productivity. Creating reproducible execution steps through automation not only saves time but also minimizes manual errors due to inconsistencies in software environments or dependencies.
 
 #### Model Training and Hyperparameter Tuning
-Model training is an iterative and resource-intensive task. Here, hyperparameter tuning is critical. An ML engineer might set up experiments using tools like Kubeflow Katib for automated hyperparameter optimization. The trained model is saved to model registry. 
+Model training is a core aspect of a data scientist's role, often requiring significant computational resources. This stage involves not just training the model but also fine-tuning various hyperparameters to optimize performance. The iterative nature of this process demands both patience and skill, as small adjustments in hyperparameters can significantly impact the model's effectiveness.
+
+Once trained, the model is typically stored in a central repository, making it accessible for further testing, evaluation, or deployment.
 
 #### Model Deployment and Monitoring
-Deploying the trained model to production is where CI/CD practices are necessary. Automated pipelines can be set up to handle testing, building, and deploying models. Tools like Jenkins or GitLab CI/CD are often employed to orchestrate these pipelines. For serving models, an ML engineer might use Seldon or Triton Inference Server, which integrate well with Kubernetes for scalable deployment.
+Deploying a trained model into a production environment is a critical phase, where the model transitions from a development setting to a real-world application. This phase often involves integrating the model into an existing product or service, requiring careful coordination and adherence to best practices in software development, including automated testing and deployment.
 
-Continuous monitoring of deployed models is crucial to ensure performance and reliability. This involves setting up monitoring tools like Prometheus and Grafana to track model performance metrics and system health.
+Continuous monitoring of the deployed model is vital to ensure it performs as expected over time. This involves tracking various performance metrics and being alert to changes in data patterns or user behavior that might affect the model's accuracy or efficiency.
 
-In reality, while almost all product development are embacing ML to certain extent. So it makes a lot of sense to integrate ML development into existing product software development workflow.
+#### Integration with Product Development
+In an increasingly AI-driven world, machine learning is becoming a staple in product development across various industries. **Integrating machine learning development into existing software development workflows is not just a trend but a necessity for creating intelligent products**. This integration requires a deep understanding of both fields and a strategic approach to melding them effectively.
+
 
 ### ML Development Process
 
 The following diagram illustrates the typical flow of ML software development. Key difference from software development being that data and models are the products.
 
-![Software Development Process](../Images/developerexperience-2.jpg)
+![ML Development Process](../Images/developerexperience-2.jpg)
 
-1. **Data as a Core Asset**: Data is the foundation of any machine learning project. Managing, processing, and versioning data become as crucial as managing code.
+1. **Data as a Core Asset**:
+   - Data is the foundation of ML development, just like the source code in software engineering. It is gathered, cleaned, and transformed into a structured format that ML models can learn from.
+   - Managing and versioning this data becomes important, ensuring that each experiment or model training run can be traced back to the specific dataset it used. 
 
-2. **Experimentation and Model Training**: Machine learning involves continuous experimentation with models, algorithms, and parameters. This experimentation requires tools and processes to track, manage, and reproduce experiments.
+2. **Experimentation and Model Training**:
+   - ML development is iterative by nature, with continuous experimentation to fine-tune models, test hypotheses, and discover the most predictive features and algorithms.
+   - Tools are employed to track these experiments, allowing data scientists to log configurations, algorithms, hyperparameters, and results systematically. This helps in identifying the most promising models that merit further development or deployment.
 
-3. **Model Evaluation and Versioning**: Once a model is trained, it must be rigorously evaluated. Managing different versions of models and their performance metrics is a key part of the ML development cycle.
+3. **Model Evaluation and Versioning**:
+   - Trained models undergo rigorous evaluation to measure their performance against predefined metrics. Only those models that meet the set thresholds of accuracy, precision, recall, or other relevant metrics are considered for deployment.
+   - Model versioning is crucial for managing the lifecycle of a model. It provides the capability to roll back to previous versions if needed and to understand the evolution of model performance over time.
 
-4. **Deployment and Monitoring**: Deploying ML models into production is more complex than traditional software. It involves not just deploying code but also ensuring the model performs as expected in real-world scenarios. Continuous monitoring and retraining become part of the deployment cycle.
+4. **Deployment and Monitoring**:
+   - Deploying ML models involves more than just releasing code; it requires the operationalization of the model within a production environment where it can infer from new data.
+   - Monitoring is an ongoing process that ensures the model's performance remains high in live settings. It involves tracking the model's predictive power and watching for signs of model drift, data skew, or other issues that might necessitate retraining or model updates.
+
+5. **Continuous Integration/Continuous Deployment (CI/CD)**:
+   - The CI/CD pipeline extends beyond code integration and deployment in ML development. It includes the building, testing, and deployment of machine learning models as well as their associated data processing and serving services.
+   - Automated pipelines help manage this flow, ensuring that new model versions are seamlessly integrated into production systems with minimal manual intervention.
+   - A model registry is a centralized repository for storing trained models, often with version control. It acts as a single source of truth for the current and historical models that have been trained.
+   - A container registry stores container images that encapsulate the model and its environment, ensuring consistency across different environments from development to production.
+   - An object store is utilized for storing large volumes of data, model artifacts, and features. This often integrates with data version control systems to manage changes and history over time.
+
+
+## Expanding CI/CD to Include ML Workflows (MLOps)
+As businesses increasingly seek to enhance their products with ML capabilities, the seamless integration of ML workflows into the established development and operations frameworks becomes paramount. An ML model, particularly in the realm of LLMs, acts as a key value driver, offering advanced analytical and reasoning capabilities accessible through simple APIs. Below is an adaptable, opinionated framework designed to align ML workflows into traditional DevOps.
+
+![MLOps Stages](../Images/developerexperience-3.jpg)
+
+
+### Stage 1: Data Versioning
+- **Independent Exploration:** Data scientists often begin their journey in isolation, experimenting with various datasets and model designs. When a milestone is reached that demands thorough validation or intricate fine-tuning, a shift to structured development takes place.
+- **Version Control for Data and Models:** At this pivotal stage, version control becomes vital. Every dataset, model configuration, and training script is meticulously tagged for identification, tracking, and future reproducibility. The use of a robust version control system is essential to handle the complexities of large datasets and model files, ensuring every aspect of the experiment, including environment configurations and dependencies, is preserved.
+
+### Stage 2: Model Building with CI
+- **Engineering with CI:** The model-building process is a disciplined engineering task, encompassing the systematic preparation of data, the rigorous training of models, and the secure storage of the resulting binaries. Continuous Integration (CI) serves as the backbone of this process.
+- **Automated ML Pipelines:** With each new data commit or script update, the CI system triggers an ML pipeline. This pipeline, which manages the sequence of steps necessary for model training, benefits from simplification through ML workflow management tools, allowing data scientists to focus on the critical tasks of data manipulation, parameter tuning, and algorithm optimization.
+- **Rigorous Evaluation:** Following training, models undergo extensive testing against a suite of evaluation scripts designed to assess their performance rigorously. Only those models that withstand these evaluations are recorded in a model registry, with their related meta-information committed to version control, thus ensuring a detailed lineage of the model's development journey.
+
+### Stage 3: Model Review and Staging
+- **Approval and Deployment:** The Continuous Deployment (CD) pipeline vigilantly observes for models that emerge successfully from evaluation and peer review. Approved models trigger deployment actions that usher them into a staging environment.
+- **Staging and Real-World Testing:** In staging, models are subjected to real-world scenarios within a setup that closely mirrors the production environment. This stage is crucial for understanding the practical efficacy and impact of the model.
+- **Hosting and Operational Management:** A sophisticated model hosting platform is then employed to serve the model, providing more than just inference capabilities. It also offers comprehensive monitoring of the model's operational metrics and health indicators.
+
+### Stage 4: Production Rollout
+- **Gradual Release:** Those models that demonstrate excellence in the staging phase are carefully transitioned into the production environment. This is achieved through measured strategies such as canary releases or blue-green deployments, ensuring that the new model is introduced without disrupting the existing system.
+
+### Stage 5: Model Monitoring
+- **Performance Monitoring:** Just as with any software product, an ML model consumes computational resources. Therefore, it is crucial to monitor its performance for factors like throughput, latency, and uptime.
+- **Unique Monitoring Challenges:** Unlike software, which is code-driven, an ML model is data-driven. This distinction means that a model's behavior and performance are fundamentally shaped by the data on which it was trained. Consequently, model monitoring encompasses not only technical performance but also the quality and integrity of the data, fairness, and the model's explanatory power.
+  - **Data Drift:** Any shift in the input data distribution can lead to decreased model accuracy.
+  - **Concept Drift:** Evolving relationships between features and target variables can make previously learned patterns obsolete.
+  - **Biases:** Unintended biases in training data can manifest in the model's predictions, necessitating vigilant monitoring to identify and address these issues.
+
+These challenges are unique to ML and require a comprehensive monitoring strategy that includes mechanisms for model retraining and updating to maintain accuracy and relevance.
+
+### Tailoring to Fit
+While the framework outlined is robust, it's also flexible, allowing for adaptation to the varying needs of organizations. Smaller teams or those in the nascent stages of ML adoption might benefit from a more streamlined approach, focusing on essential version control and a basic model serving platform. The overarching objective is to cultivate a process that resonates with your team's capabilities, the scale of your data, and the intricacies of your models, ensuring that your MLOps practices evolve in harmony with your organization's growth and aspirations.
+
 
 ### Select Open-source Tools for MLOps
-
 The following table lists a few widely used tools for MLOps on Kubernetes. It is important to emphasize, start with the problems and adopt a tool only if needed.
 
 
@@ -76,111 +134,22 @@ The following table lists a few widely used tools for MLOps on Kubernetes. It is
 | Airflow        | Moderate to High   | - Automation and orchestration of complex workflows<br>- Scheduling and monitoring of ML pipelines<br>- Integration with diverse data sources and ML tools<br>- Dynamic pipeline generation with Python<br>- Customizable and extensible design<br>- Management of task dependencies and execution order |
 | Seldon Core    | Moderate to High   | - Scalable deployment of ML models in Kubernetes<br>- Advanced deployment strategies (A/B testing, shadow deployment)<br>- Model monitoring and logging<br>- Rich inference graph with pre/post-processing<br>- Integration with MLflow, Tensorflow, and other frameworks<br>- Custom resource definitions for ML deployments in Kubernetes |
 
-
-#### How DVC fits into DevOps and MLOps
-Integrating DVC with CI/CD creates a robust and reproducible ML development process.
-
-##### Developer Interaction:
-* Easy Integration: Integrates seamlessly with existing Git workflow.
-* Track files: Use `dvc add` to track large datasets and model files.
-* Data Versioning: Create and manage different versions of data and models.
-* Remote Storage: Connect to cloud storage (AWS S3, Azure Blob Storage, etc.) for data storage.
-* Familiar Experience: Versioning process similar to Git, making it easy to learn.
-
-##### CI/CD Pipelines:
-* Automates Data and Model Versioning: Ensures pipelines use correct versions for testing and deployment.
-* Reproducible Workflows: Guarantees consistent results across pipeline runs.
-* Improved Efficiency: Automates data and model handling, saving developer time.
-* CI Integration: Use `dvc pull` to retrieve specific data/model versions for testing.
-* CD Integration: Use `dvc` to deploy correct version of models with application.
-
-#### How MLflow fits into DevOps and MLOps
-MLflow empowers developers to manage their ML projects effectively, fostering experimentation, collaboration, and reliable results.
-
-##### Developer Interaction:
-* Streamlines Workflow: Provides a centralized platform for managing your entire ML lifecycle.
-* Easy Integration: Integrate seamlessly with existing projects or start new ones using MLflow templates.
-* Four Key Components:
-    * MLflow Tracking: Logs experiments (parameters, code, metrics, outputs) for comparison and visualization.
-    * MLflow Projects: Packages data science code for reproducibility and sharing.
-    * MLflow Models: Offers a standard format for model packaging.
-    * Model Registry: Central repository for versioning and managing models.
-
-##### CI/CD Pipelines:
-* Automates Workflow: Integrates seamlessly with CI/CD pipelines for automated tracking and deployment.
-* CI Integration: Log new experiments with every code push, preserving run history.
-* CD Integration: Automate model deployment from staging to production based on performance or validation.
-
-##### Experiment Management:
-* Log Experiments: Track all runs with parameters, code versions, metrics, and results.
-* Compare Runs: Visually compare experiments to understand changes and impact.
-* Reproducible Results: Track everything for easy replication of past runs.
-* Collaboration: Share experiments with your team for transparency and efficiency.
-* Centralized Storage: Keep all experiment data in one place for easy access and analysis.
-
-
-#### How Metaflow fits into DevOps and MLOps
-Metaflow is tailored to streamline and optimize machine learning workflows, aligning well with DevOps and MLOps practices. It offers a unique combination of tools and features to facilitate efficient development, testing, deployment, and maintenance of ML models.
-
-##### Developer Interaction:
-* Workflow Simplification: Provides a comprehensive framework for building and managing complex data flows in ML projects.
-* Scalable and Flexible Execution: Allows for easy scaling of ML models across different environments, from local development to cloud deployment.
-* Comprehensive Tracking: Supports detailed versioning and tracking of data, code, models, and entire workflows.
-
-##### Key Features:
-* Data Flow Orchestration: Simplifies the design and management of data science workflows, ensuring smooth transitions and operational efficiency.
-* Robust Execution Environments: Facilitates containerization and offers compatibility with various backends like AWS, enhancing flexibility and scalability.
-* Enhanced Experiment Tracking and Debugging: Provides tools for tracking entire workflows and improved debugging, aiding in reproducibility and consistency.
-
-##### CI/CD Pipelines:
-* Automated Workflow Integration: Metaflow can be integrated into CI/CD pipelines, automating various stages of ML model development and deployment.
-* Continuous Integration (CI): Facilitates the incorporation of data science experiments into the broader software development lifecycle, enabling version control and automated testing.
-* Continuous Deployment (CD): Supports automated deployment of models, ensuring smooth transition from staging to production with robust validation mechanisms.
-
-##### Experiment Management:
-* Detailed Tracking: Enables comprehensive tracking of experiments, including data, parameters, code versions, and results.
-* Workflow Comparison: Provides capabilities to compare different workflows and understand their impacts, fostering a deeper understanding of model performance.
-* Reproducibility: Ensures that all aspects of ML experiments are tracked and versioned, making it easier to replicate and validate results.
-* Team Collaboration: Enhances collaboration among data scientists by enabling sharing and reviewing of workflows and experiments.
-* Centralized Management: Offers centralized management of workflows, models, and experiments, streamlining the process of accessing and analyzing ML project components.
-
-In summary, Metaflow integrates into DevOps and MLOps ecosystems by offering robust workflow management, experiment tracking, and scalable deployment solutions. Its emphasis on reproducibility, scalability, and collaboration makes it an essential tool for modern ML teams.
-
-
-#### How Kubeflow fits into DevOps and MLOps
-Kubeflow offers a comprehensive, Kubernetes-based platform for managing the entire ML lifecycle. It’s particularly beneficial for scalable and complex ML projects, providing flexibility in tooling and infrastructure.
-
-##### Developer Interaction with Kubeflow
-- Installation and Setup: Begins with setting up Kubeflow on a Kubernetes cluster.
-- Centralized ML Workflow: Provides a unified interface for managing diverse ML tasks.
-- Pipeline Creation: Utilize Kubeflow Pipelines for creating and managing end-to-end ML workflows.
-- Jupyter Notebooks: Offers integrated Jupyter notebooks for interactive development and experimentation.
-- Component Integration: Seamlessly integrates various components like model training, hyperparameter tuning, and serving.
-- Scalability: Leverages Kubernetes for scaling ML workflows, suitable for large-scale ML projects.
-
-##### Kubeflow in CI/CD Pipelines
-- Automated Workflows: Facilitates automation of ML workflows in CI/CD pipelines.
-- Consistent Deployment: Ensures consistent deployment environments using Kubernetes.
-- Pipeline Versioning: Tracks different versions of ML pipelines, aiding in reproducibility.
-- Continuous Training: Supports continuous training paradigms, automatically retraining models with new data.
-- Model Deployment: Streamlines the deployment process with tools for model serving and monitoring.
-
-##### Managing Experiments with Kubeflow
-- Experiment Tracking: Track and compare experiments using Kubeflow's UI.
-- Hyperparameter Tuning: Utilize Katib for automated hyperparameter tuning and optimization.
-- Model Experimentation: Allows for extensive model experimentation with different frameworks.
-- Pipeline Experimentation: Supports experimentation with different pipeline configurations.
-- Metrics and Monitoring: Provides tools for monitoring experiments and gathering key performance metrics.
+We will cover DVC, MLflow and Kubeflow in depth in later chapters.
 
 
 ### Recommendations for ML Development Workflow
+Machine learning integration varies significantly among product teams. Some are dedicated ML companies working on cutting-edge language models, while others might be employing ML more modestly to enhance their existing products. As the landscape of ML development is diverse, identifying and addressing key challenges is essential for an optimal development experience.
 
-Different product teams use ML differently. Some are pure-play ML startups, focusing on building very large language model (LLM), some may just want to finetune a model and run it as an API endpoint. Whereas some others may training a moderate size neural network. While the ML development ecosystem is fairly broad, it is important to be aware of the key problems you need to address for an optimal developer experience.
+For teams new to machine learning, it is prudent to begin with a foundational set of tools, gradually expanding to more advanced systems as the complexity of your projects increases. **Starting with simplicity allows for a better grasp of ML development's unique challenges without the immediate complexity of the full spectrum of tools and methods.** Here is a set of progressive recommendations:
 
-For those **new to machine learning**, it's advisable to begin with the bare minimum set of tools and gradually adopt more sophisticated tools and processes as your project's complexity grows. Starting simple helps in understanding the unique aspects of ML development without getting overwhelmed by the vast array of available tools and methodologies. An opnionated recommendation is as follows.
+1. **Begin with Version Control**: Initiate your ML journey by adopting version control practices for both your datasets and models. Tools like DVC can complement Git, providing a seamless version control system that extends to large data files and models, making Git the cornerstone for all your code, data, and model artifacts.
 
-1. **Start with Data and Model versioning**: You already have code and configuraiton versioning (Git). start with model and data versioning with DVC. 
+2. **Incorporate a Model Lifecycle Platform**: As your project grows and model iteration becomes a more significant part of your workflow, consider integrating a model lifecycle platform (eg. MLflow). Such a platform can offer comprehensive features for tracking experiments, visualizing results, and monitoring models throughout their lifecycle, ensuring systematic progression from development to deployment.
 
-2. **Adopt Advanced Tools purely based on need**: As your project grows, incorporate more advanced tools for experiment tracking and model versioning (MLflow), and automated deployment pipelines (Kubeflow, Metaflow). Likewise, experiment with and adopt Ray if you need parallel computing.
+3. **Expand Your Toolkit as Necessary**: As collaboration needs or computational demands increase, tools like notebooks for collaborative development and pipeline management can be invaluable (eg. Kubeflow). Additionally, for tasks requiring high-performance computing or distributed processing, exploring solutions like parallel computing frameworks (eg. Ray) can be advantageous.
 
-Note that the decision also depends on your team's expertise on current tools, and bias towards managed services.
+The choices you make should be informed by your team's current expertise, familiarity with existing tools, and preference for either managed services or self-managed infrastructure. Managed services can offer convenience and scalability but may come with trade-offs in terms of cost and control.
+
+The complexity of the ML component within your product also dictates the need for more sophisticated tooling. It's important to select tools that not only fit your current needs but are also flexible enough to scale with your project's growth.
+
+Ultimately, the goal is to establish a workflow that aligns with your team's skill set, project requirements, and strategic vision, allowing for the smooth evolution of your ML capabilities.
