@@ -1,6 +1,8 @@
 ---
-# defaults file for roles/paperspace-vm-create
-paperspace_api_key: "d7aa3d7707b4e023776912e4f3a5d8"
+# defaults file for roles/paperspace-vm-create.
+# Make a copy to main.yml, and update the following per your spec. 
+# Template_if can be found from "paperspace template list"
+paperspace_api_key: "<your_api_key>"
 region: "East Coast (NY2)"
 machine_type: "C2"
 size: 50
