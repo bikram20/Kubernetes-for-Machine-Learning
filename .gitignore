@@ -1,5 +1,6 @@
 Ansible/*.log
 Ansible/roles/paperspace_rw_storage_class/vars/main.yml
+Ansible/roles/paperspace-vm-manager/defaults/main.yml
 
 # Ignore system-specific files
 .DS_Store

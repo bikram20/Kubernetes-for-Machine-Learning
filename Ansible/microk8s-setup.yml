@@ -1,13 +1,45 @@
 ---
 - name: Install and Configure MicroK8s Cluster
-  hosts: microk8s_cluster
-  roles:
-    - nvidia-host-tools               # Host driver. Does not include fabric manager yet
-    - system-setup                    # Basic system readiness and install snap
-    - microk8s-node-install           # Install microk8s on each node
-    - microk8s-cluster-setup          # Setup the cluster - can be N nodes, starting with 1
-    - microk8s-addons                 # Set up basic addons (eg. metric-server and observability)
-    - paperspace_rw_storage_class     # Setup Paperspace shared drive (SMB CIS)
-    - nvidia-containerd-toolkit       # Add NVIDIA container toolkit for GPU/containerd
-    - nvidia-device-plugin            # Add NVIDIA device plugin for GPU/k8s
-    - test-a-gpu-container            # Apply a basic manifest. Check that container comes up. Run nvidia-smi inside the container
+  hosts: all
+  tasks:
+    - name: Debug machine type
+      debug:
+        var: hostvars[inventory_hostname].machine_type
+
+    - include_role:
+        name: nvidia-host-tools             # Host driver. Does not include fabric manager yet 
+      when: hostvars[inventory_hostname].machine_type == "gpu"
+      tags: nvidia-host-tools
+
+    - include_role:   
+        name: system-setup                 # Basic system readiness and install snap
+      tags: system-setup
+
+    - include_role:
+        name: microk8s-node-install         # Install microk8s on each node
+      tags: microk8s-node-install 
+
+    - include_role:
+        name: microk8s-cluster-setup        # Setup the cluster - can be N nodes, starting with 1
+      tags: microk8s-cluster-setup  
+
+    - include_role:
+        name: microk8s-addons               # Set up basic addons (eg. metric-server and observability)
+      tags: microk8s-addons 
+
+    - include_role:
+        name: paperspace_rw_storage_class   # Setup Paperspace shared drive (SMB CIS)
+      tags: paperspace_rw_storage_class 
+
+    - include_role:
+        name: nvidia-containerd-toolkit     # Add NVIDIA container toolkit for GPU/containerd
+      when: hostvars[inventory_hostname].machine_type == "gpu"
+      tags: nvidia-containerd-toolkit 
+
+    - include_role:
+        name: nvidia-device-plugin          # Add NVIDIA device plugin for GPU/k8s
+      tags: nvidia-device-plugin 
+
+    - include_role:                         
+        name: test-a-gpu-container          # Apply a basic manifest. Check that container comes up. Run nvidia-smi inside the container  
+      tags: test-a-gpu-container

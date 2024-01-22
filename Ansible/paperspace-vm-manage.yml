@@ -1,0 +1,27 @@
+---
+- name: Deploy VMs to Paperspace
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_C4"
+        machine_type: "C4"
+        machine_counts: 2
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_P4000"
+        machine_type: "A4000"
+        machine_counts: 1
+
+  tasks:
+    - name: Debug vm_group
+      debug:
+        var: vm_groups
+
+    - name: Update inventory file
+      template:
+        src: ./inventory.j2
+        dest: ./inventory
+      vars:
+        vm_groups: "{{ vm_groups }}"

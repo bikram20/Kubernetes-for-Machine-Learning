@@ -1,0 +1,107 @@
+---
+# tasks file for roles/paperspace-vm-create
+- name: Get list of existing VMs
+  uri:
+    url: "https://api.paperspace.io/machines/getMachines"
+    method: GET
+    headers:
+      X-Api-Key: "{{ paperspace_api_key }}"
+    return_content: yes
+    status_code: 200
+  register: existing_vms
+
+- name: Debug machine_counts
+  debug:
+    var: machine_counts
+
+- name: Count existing VMs matching the pattern
+  set_fact:
+    existing_matching_vms_count: "{{ (existing_vms.json | selectattr('name', 'match', machine_name ~ '-.*') | list | length) | int }}"
+
+- name: Create multiple VMs in Paperspace
+  uri:
+    url: "https://api.paperspace.io/machines/createSingleMachinePublic"
+    method: POST
+    body: 
+      region: "{{ region }}"
+      machineType: "{{ machine_type }}"
+      size: "{{ size }}"
+      billingType: "{{ billing_type }}"
+      machineName: "{{ machine_name }}-{{ item }}"
+      templateId: "{{ template_id }}"
+      #teamId: "{{ team_id }}"
+      networkId: "{{ network_id }}"
+      dynamicPublicIp: "{{ dynamic_public_ip }}"
+    body_format: json
+    headers:
+      X-Api-Key: "{{ paperspace_api_key }}"
+      Content-Type: "application/json"
+    status_code: 200
+  register: create_vm_response
+  loop: "{{ range(1, machine_counts + 1)|list }}"
+  when:
+    - (existing_vms.json | selectattr('name', 'equalto', machine_name ~ '-' ~ item|string) | list | length) == 0
+    - (existing_matching_vms_count | int) < (machine_counts | int)
+
+- name: Gather and sort existing VMs
+  set_fact:
+    sorted_existing_vms: "{{ existing_vms.json | selectattr('name', 'match', machine_name ~ '-.*') | list | sort(attribute='name') }}"
+
+- name: Compute VMs to delete
+  set_fact:
+    vms_to_delete: "{{ sorted_existing_vms[-(existing_matching_vms_count | int - machine_counts | int):] }}"
+  when:
+    - existing_matching_vms_count | int > machine_counts | int
+    - machine_counts | int >= 0
+
+- name: Delete excess VMs in Paperspace
+  uri:
+    url: "https://api.paperspace.io/machines/{{ item.id }}/destroyMachine"
+    method: POST
+    headers:
+      X-Api-Key: "{{ paperspace_api_key }}"
+      Content-Type: "application/json"
+    status_code: 204
+  loop: "{{ vms_to_delete }}"
+  when: vms_to_delete is defined and vms_to_delete | length > 0
+  ignore_errors: yes  
+
+# - name: Wait for VMs to initialize or confirm deletion. Does not work. Need more time to initialize
+#   pause:
+#     seconds: 60
+#   when: 
+#     - machine_counts | int != existing_matching_vms_count | int
+
+- name: Gather and sort existing VMs AGAIN
+  set_fact:
+    sorted_existing_vms: "{{ existing_vms.json | selectattr('name', 'match', machine_name ~ '-.*') | list | sort(attribute='name') }}"
+
+- name: Set processor type - need it for inventory
+  set_fact:
+    processor_type: "{{ 'cpu' if machine_type is regex('C[1-9].*') else 'gpu' }}"
+
+- name: Initialize vm_list
+  set_fact:
+    vm_list: []
+
+- name: Populate vm_list with VM data
+  set_fact:
+    vm_list: "{{ vm_list + [{ 'name': item.name, 'ip': item.publicIpAddress, 'processor_type': processor_type }] }}"
+  loop: "{{ sorted_existing_vms }}"
+  loop_control:
+    loop_var: item
+
+- name: Construct vm_group for current set of VMs
+  set_fact:
+    current_vm_group:
+      name: "{{ machine_name }}"
+      vms: "{{ vm_list }}"
+
+- name: Debug current_vm_group
+  debug:
+    var: current_vm_group
+
+- name: Append current_vm_group to vm_groups
+  set_fact:
+    vm_groups: "{{ vm_groups | default([]) + [current_vm_group] }}"
+  when: current_vm_group is defined

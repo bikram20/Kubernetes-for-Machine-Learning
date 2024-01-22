@@ -7,11 +7,59 @@ It is expected that you are familiar with automation tools like ansible. In gene
 ```shell
 git clone <this_repo>
 cd Ansible
-
-# Set up your inventory (ip addresses of your Paperspace VMs) in the inventory file.
-# In the cloned Ansible/roles/paperspace_rw_storage_class/vars/main.yml file, set up your Paperspace shared drive credentials. Note that you will need to rename/copy main-copyme.yml file.
-# In the cloned Scripts_Artifacts/smb_storageclass.yml file, set up your Paperspace shared drive network path.
 ```
+
+There are 4 different playbooks:
+- Use **paperspace-vm-manage.yml** for setting up your VMs. It is declarative and automatically populates the inventory file. Note that a create/delete for a VM takes some time to take effect, so you may need to rerun paperspace-vm-manage.yml playbook for the inventory file to be correctly populated.
+- **microk8s-setup.yml** is the main playbook. It sets up microk8s cluster with GPU drivers, necessary addons and shared drive.
+- microk8s-shutdown.yml is the playbook to shutdown the cluster and poweroff the machines. Helpful if you are not using the cluster and plan to shutdown to save cost.
+- microk8s-startup.yml starts the microk8s cluster. Note, it does NOT poweron the machines. You need to do that manually for now.
+
+
+### Setting up your VMs in Paperspace
+
+**You must set up your paperspace API key before you run the playbook.**
+- In the cloned Ansible/roles/paperspace-vm-manager/defaults/main.yml file, set up the Paperspace API key and VM defaults. [Reference](https://docs.paperspace.com/core/api-reference/machines#create)
+
+You may want to create multiple counts of machines of different categories - for example: 2 machines for C4 cpu-only VMs, 3 machines for A4000 gpu VMs etc. You should first configure your desired spec in the playbook paperspace-vm-manage.yml. An example below.
+
+```shell
+---
+- name: Deploy VMs to Paperspace
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_C4"
+        machine_type: "C4"
+        machine_counts: 2
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_P4000"
+        machine_type: "A4000"
+        machine_counts: 1
+
+```
+
+The playbook is designed to be declarative, meaning you may change the machine_counts and rerun anytime. Even without changing anything, it will simply update the inventory file. Note that you should not change the VM names manually in the console, as the script relies on the names of the VMs to identify the machines.
+
+To set up your VMs per your spec, run the playbook.
+
+```shell
+ansible-playbook paperspace-vm-manage.yml -v
+```
+
+Note that the inventory file will not be fully populated at this time. That's because it takes a while for the systems to boot and get ip addresses. So re-rerun the playbook again after 30-60 seconds. It is idempotent, so no issues even if you run many times. Inventory file should be populated after 30-60 seconds.
+
+Now your VMs are ready and you can set up the microk8s cluster.
+
+
+### Setting up the Microk8s Cluster
+
+**You must configure the following before you run the playbook.**
+- In the cloned Ansible/roles/paperspace_rw_storage_class/vars/main.yml file, set up your Paperspace shared drive credentials. Note that you will need to rename/copy main-copyme.yml file to main.yml.
+In the cloned Scripts_Artifacts/smb_storageclass.yml file, set up your Paperspace shared drive network path.
 
 That's all you need for default setup. Now you can install the whole cluster with GPU setup, shared drive and addons using the following.
 
@@ -51,7 +99,7 @@ You will need to stop microk8s, and then shut down the machines.
 ansible-playbook -i inventory microk8s-shutdown.yml
 ```
 
-# Starting up a cluster (post shutdown)
+### Starting up a cluster (post shutdown)
 Check IP addrsses when restarting the nodes after poweroff and update the inventory file.
 ```shell
 paperspace machines list 2>/dev/null | grep "publicIpAddress" | awk '{print $2}' | tr -d '",'

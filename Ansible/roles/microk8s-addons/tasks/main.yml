@@ -2,12 +2,10 @@
 - name: Enable metrics-server
   become: yes
   shell: microk8s enable metrics-server
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Enable observability
   become: yes
   shell: microk8s enable observability --kube-prometheus-stack-version=55.5.1 --loki-stack-version=2.9.11 --without-tempo
-  when: inventory_hostname == groups['microk8s_cluster'][0]
-
-
+  when: inventory_hostname == groups['all'][0]
 

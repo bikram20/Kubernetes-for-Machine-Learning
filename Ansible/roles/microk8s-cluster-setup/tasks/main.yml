@@ -3,19 +3,19 @@
 - name: Wait for MicroK8s to be ready
   become: yes
   shell: microk8s status --wait-ready
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Gather node information from the first VM
   become: yes
   shell: microk8s kubectl get nodes -o jsonpath="{.items[*].metadata.name}"
   register: cluster_nodes
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   run_once: true
 
 - name: Set cluster nodes fact
   set_fact:
     cluster_nodes: "{{ cluster_nodes.stdout }}"
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   run_once: true
 
 - name: Check if node is already part of the cluster
@@ -24,7 +24,7 @@
   register: node_check
   failed_when: node_check.rc != 0 and node_check.rc != 1
   changed_when: false
-  when: inventory_hostname != groups['microk8s_cluster'][0]
+  when: inventory_hostname != groups['all'][0]
   ignore_errors: true
 
 
@@ -32,27 +32,27 @@
   become: yes
   shell: microk8s add-node --token-ttl 120
   register: join_command_result
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   run_once: true
 
 - name: Debug join command result
   debug:
     var: join_command_result.stdout_lines
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   run_once: true
 
 - name: Set join command fact
   become: yes
   set_fact:
     join_command: "{{ join_command_result.stdout_lines[-1] }}"
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   run_once: true
 
 - name: Join other VMs to the cluster
   become: yes
-  shell: "{{ hostvars[groups['microk8s_cluster'][0]].join_command_result.stdout_lines[1] }}"
+  shell: "{{ hostvars[groups['all'][0]].join_command_result.stdout_lines[1] }}"
   when: >
-    inventory_hostname != groups['microk8s_cluster'][0] and
+    inventory_hostname != groups['all'][0] and
     node_check.rc != 0
 
 - name: Create .kube directory

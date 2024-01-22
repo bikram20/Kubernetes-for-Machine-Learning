@@ -3,7 +3,7 @@
   kubernetes.core.helm_repository:
     name: csi-driver-smb
     repo_url: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Install/Upgrade CSI Driver SMB
   shell: >
@@ -12,7 +12,7 @@
     --version v1.13.0
     --set linux.kubelet="/var/snap/microk8s/common/var/lib/kubelet"
     --install
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
   register: helm_output
   failed_when: '"Error" in helm_output.stderr'
 
@@ -25,7 +25,7 @@
 #    chart_version: v1.13.0
 #    release_values:
 #      linux.kubelet: "/var/snap/microk8s/common/var/lib/kubelet"
-#  when: inventory_hostname == groups['microk8s_cluster'][0]
+#  when: inventory_hostname == groups['all'][0]
 
 - name: Create Secret for SMB Credentials
   kubernetes.core.k8s:
@@ -39,7 +39,7 @@
       data:
         username: "{{ smb_username | b64encode }}"
         password: "{{ smb_password | b64encode }}"
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Print the rendered content
   debug:
@@ -49,20 +49,20 @@
   template:
     src: "{{ role_path }}/files/smb-storageclass.yml.j2"
     dest: "/tmp/smb-storageclass.yml"
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Check if SMB StorageClass exists
   k8s_info:
     kind: StorageClass
     name: smb
   register: storageclass_check
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Create SMB StorageClass
   k8s:
     state: present
     src: "/tmp/smb-storageclass.yml"
   when:
-    - inventory_hostname == groups['microk8s_cluster'][0]
+    - inventory_hostname == groups['all'][0]
     - not storageclass_check.resources
 

@@ -47,12 +47,12 @@
   apt:
     name: python3-pip
     state: present
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Install Kubernetes Python library
   pip:
     name: kubernetes
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Get list of installed helm plugins
   become_user: paperspace

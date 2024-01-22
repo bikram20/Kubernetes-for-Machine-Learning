@@ -1,0 +1,11 @@
+[all:vars]
+ansible_user=paperspace
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+{% for group in vm_groups %}
+[{{ group.name }}]
+{% for vm in group.vms %}
+{{ vm.name }} ansible_host={{ vm.ip }} machine_type={{ vm.processor_type }}
+{% endfor %}
+
+{% endfor %}

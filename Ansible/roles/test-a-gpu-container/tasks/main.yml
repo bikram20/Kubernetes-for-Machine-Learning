@@ -21,7 +21,7 @@
           - key: nvidia.com/gpu
             operator: Exists
             effect: NoSchedule
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 
 # Pod will never to to READY state, it will just COMPLETED as a job
@@ -31,7 +31,7 @@
   until: pod_status.stdout == "Succeeded"
   retries: 10
   delay: 10
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Check container logs for success message
   ansible.builtin.command: kubectl logs gpu-pod
@@ -39,12 +39,12 @@
   until: "'Test PASSED' in container_logs.stdout"
   retries: 10
   delay: 10
-  when: inventory_hostname == groups['microk8s_cluster'][0]
+  when: inventory_hostname == groups['all'][0]
 
 - name: Fail the playbook if test failed on node 0
   fail:
     msg: "GPU container test failed on node 0. Container logs: {{ container_logs.stdout }}"
   when:
-    - inventory_hostname == groups['microk8s_cluster'][0]
+    - inventory_hostname == groups['all'][0]
     - "'Test PASSED' not in container_logs.stdout"
 

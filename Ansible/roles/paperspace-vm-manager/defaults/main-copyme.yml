@@ -1,0 +1,12 @@
+---
+# defaults file for roles/paperspace-vm-create
+paperspace_api_key: "d7aa3d7707b4e023776912e4f3a5d8"
+region: "East Coast (NY2)"
+machine_type: "C2"
+size: 50
+billing_type: "hourly"
+template_id: "t0nspur5"
+network_id: "nlflafvc"
+dynamic_public_ip: true
+machine_name: "bg-ubuntu"
+machine_counts: 1

@@ -1,8 +1,10 @@
-[microk8s_cluster:vars]
+[all:vars]
 ansible_user=paperspace
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
-[microk8s_cluster]
-node1 ansible_host=184.105.4.198
-node2 ansible_host=184.105.4.224
-node3 ansible_host=184.105.3.104
+[bg_C4]
+bg_C4-1 ansible_host=184.105.3.118 machine_type=cpu
+
+[bg_P4000]
+bg_A4000-1 ansible_host=184.105.5.179 machine_type=gpu
+bg_A4000-2 ansible_host=184.105.5.179 machine_type=gpu
