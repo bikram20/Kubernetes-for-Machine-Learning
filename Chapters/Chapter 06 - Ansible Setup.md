@@ -10,8 +10,8 @@ cd Ansible
 ```
 
 There are 4 different playbooks:
-- Use **paperspace-vm-manage.yml** for setting up your VMs. It is declarative and automatically populates the inventory file. Note that a create/delete for a VM takes some time to take effect, so you may need to rerun paperspace-vm-manage.yml playbook for the inventory file to be correctly populated.
-- **microk8s-setup.yml** is the main playbook. It sets up microk8s cluster with GPU drivers, necessary addons and shared drive.
+- Use **paperspace-vm-manage.yml** for setting up your VMs. It is declarative (can run multiple times) and automatically populates the inventory file. Note that a create/delete for a VM takes some time to take effect, so you will need to rerun paperspace-vm-manage.yml playbook for the inventory file to be correctly populated.
+- **microk8s-setup.yml** is the main playbook. It sets up microk8s cluster with GPU drivers, necessary addons and shared drive. <b>Future: Bypass most of the steps by creating and using custom image pre-installed with drivers and microk8s. This can save most of the setup time.</b>
 - microk8s-shutdown.yml is the playbook to shutdown the cluster and poweroff the machines. Helpful if you are not using the cluster and plan to shutdown to save cost.
 - microk8s-startup.yml starts the microk8s cluster. Note, it does NOT poweron the machines. You need to do that manually for now.
 
@@ -91,8 +91,6 @@ If you need to customize or add a task, you may like to use a tag for running on
 ansible-playbook -i inventory microk8s-setup.yml --tags add_microk8s_bin_to_path
 ```
 
-Paperspace VM's have dynamic public IPs and may change between reboots. Make sure to fix the inventory file
-
 ### Safe shutdown
 You will need to stop microk8s, and then shut down the machines.
 ```shell
@@ -100,9 +98,13 @@ ansible-playbook -i inventory microk8s-shutdown.yml
 ```
 
 ### Starting up a cluster (post shutdown)
-Check IP addrsses when restarting the nodes after poweroff and update the inventory file.
+Paperspace VM's have dynamic public IPs and may change between reboots. Make sure to fix the inventory file. You may just re-run this after you power-on the VMs manually.
+
 ```shell
-paperspace machines list 2>/dev/null | grep "publicIpAddress" | awk '{print $2}' | tr -d '",'
-# Make sure to verify the IP address and update the inventory file
+ansible-playbook paperspace-vm-manage.yml -v
+```
+
+
+```shell
 ansible-playbook -i inventory microk8s-startup.yml
 ```

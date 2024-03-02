@@ -125,7 +125,7 @@ Flexibility is key in MLOps. Teams should continuously assess their needs, scali
 Ultimately, the goal of MLOps is to establish a process that not only aligns with the team's current operational landscape but also evolves dynamically with their aspirations and challenges. This tailored approach ensures that MLOps practices deliver value and drive efficiency in the most effective manner for each unique team and project.
 
 ## Select Open-source Tools for MLOps
-The following table lists a few widely used tools for MLOps on Kubernetes. It is important to emphasize, start with the problems and adopt a tool only if needed.
+The following table lists a few example tools for MLOps on Kubernetes. This list is by no means comprehensive. It is important to emphasize, start with the problems and adopt a tool only if needed.
 
 
 | Tool           | Complexity         | Use Cases                                                                                      |
@@ -137,15 +137,13 @@ The following table lists a few widely used tools for MLOps on Kubernetes. It is
 | Airflow        | Moderate to High   | - Automation and orchestration of complex workflows<br>- Scheduling and monitoring of ML pipelines<br>- Integration with diverse data sources and ML tools<br>- Dynamic pipeline generation with Python<br>- Customizable and extensible design<br>- Management of task dependencies and execution order |
 | Seldon Core    | Moderate to High   | - Scalable deployment of ML models in Kubernetes<br>- Advanced deployment strategies (A/B testing, shadow deployment)<br>- Model monitoring and logging<br>- Rich inference graph with pre/post-processing<br>- Integration with MLflow, Tensorflow, and other frameworks<br>- Custom resource definitions for ML deployments in Kubernetes |
 
-We will cover DVC, MLflow and Kubeflow in depth in later chapters.
-
 
 ## Recommendations for ML Development Workflow
 Machine learning integration varies significantly among product teams. Some are dedicated ML companies working on cutting-edge language models, while others might be employing ML more modestly to enhance their existing products. As the landscape of ML development is diverse, identifying and addressing key challenges is essential for an optimal development experience.
 
 For teams new to machine learning, it is prudent to begin with a foundational set of tools, gradually expanding to more advanced systems as the complexity of your projects increases. **Starting with simplicity allows for a better grasp of ML development's unique challenges without the immediate complexity of the full spectrum of tools and methods.** Here is a set of progressive recommendations:
 
-1. **Begin with Version Control**: Initiate your ML journey by adopting version control practices for both your datasets and models. Tools like DVC can complement Git, providing a seamless version control system that extends to large data files and models, making Git the cornerstone for all your code, data, and model artifacts.
+1. **Use Version Control**: Initiate your ML journey by adopting version control practices for both your datasets and models. Huggingface is akin to Github for LLMs- you can use Huggingface as a repository for your models and datasets. Another option is DVC. Tools like DVC can complement Git, providing a seamless version control system that extends to large data files and models, making Git the cornerstone for all your code, data, and model artifacts. 
 
 2. **Incorporate a Model Lifecycle Platform**: As your project grows and model iteration becomes a more significant part of your workflow, consider integrating a model lifecycle platform (eg. MLflow). Such a platform can offer comprehensive features for tracking experiments, visualizing results, and monitoring models throughout their lifecycle, ensuring systematic progression from development to deployment.
 

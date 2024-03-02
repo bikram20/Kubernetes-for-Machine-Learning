@@ -7,12 +7,28 @@
       vars:
         machine_name: "bg_C4"
         machine_type: "C4"
-        machine_counts: 2
+        machine_counts: 1
     - role: paperspace-vm-manager
       vars:
         machine_name: "bg_P4000"
+        machine_type: "P4000"
+        machine_counts: 0
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_A4000"
         machine_type: "A4000"
+        machine_counts: 0
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_A5000"
+        machine_type: "A5000"
         machine_counts: 1
+    - role: paperspace-vm-manager
+      vars:
+        machine_name: "bg_A100"
+        machine_type: "A100"
+        machine_counts: 0
+
 
   tasks:
     - name: Debug vm_group

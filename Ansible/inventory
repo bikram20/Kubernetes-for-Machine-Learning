@@ -3,8 +3,14 @@ ansible_user=paperspace
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [bg_C4]
-bg_C4-1 ansible_host=184.105.3.118 machine_type=cpu
+bg_C4-1 ansible_host=184.105.3.74 machine_type=cpu
 
 [bg_P4000]
-bg_A4000-1 ansible_host=184.105.5.179 machine_type=gpu
-bg_A4000-2 ansible_host=184.105.5.179 machine_type=gpu
+
+[bg_A4000]
+
+[bg_A5000]
+bg_A5000-1 ansible_host=184.105.3.151 machine_type=gpu
+
+[bg_A100]
+

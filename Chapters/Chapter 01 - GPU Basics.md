@@ -1,6 +1,9 @@
 # Chapter 1: Basics of GPU
 
-This chapter introduces you to GPU technology, starting from installation to understanding both hardware and software components. We'll install drivers, run some GPU-based tasks, and explore key concepts of GPU architecture.
+This chapter introduces you to GPU technology, starting from installation to understanding both hardware and software components. We'll install drivers, run some GPU-based tasks, and explore key concepts of GPU architecture as shown below.
+
+![GPU Stack on a VM](../Images/GPUstackVM.jpg)
+
 
 ## Pre-requisite
 Before we start, ensure you have a Ubuntu 22.04 server/desktop with an NVIDIA GPU. We're using a Paperspace Core VM (www.paperspace.com), but any similar setup, including your local machine, will work. Just ensure you have SSH access to the VM.
@@ -264,6 +267,8 @@ paperspace@ps3nfhuzbif3:~$
 
 ## GPU Concepts
 
+![GPU Block Diagram](../Images/GPUblockdiagram.jpg)
+
 GPUs are sophisticated systems-on-chips designed for accelerated computing. Unlike CPUs, GPUs consist of thousands of simpler processors, each equipped with its own set of registers, dedicated memory, and cache. They do not run an operating system themselves but are controlled through drivers and tools installed on the host OS, such as Linux or Windows.
 
 User applications, especially those with parallelizable components, can significantly benefit from GPU acceleration. This is evident in tasks like matrix multiplication, where GPUs can perform computations much faster than traditional CPUs. In the realm of software development, this acceleration is achieved through specialized libraries like CuDNN, optimized for neural network operations, which in turn utilize CUDA (Compute Unified Device Architecture).
@@ -441,6 +446,7 @@ Once the kernel is launched, CUDA takes over on the GPU side:
 - **Warp Scheduling**: Within each SM, a warp scheduler manages the execution of threads. Warps, which are groups of threads, are assigned to available execution units (CUDA cores or tensor cores). The scheduler is responsible for handling context switching between threads and ensuring that each instruction is executed correctly.
 
 - **Tensor Core Utilization**: For operations suitable for tensor cores (like mixed-precision computations), the warp scheduler identifies and assigns eligible threads to these specialized cores. This includes managing the efficient transfer of data between CUDA cores and tensor cores, optimizing the overall computation process.
+
 
 
 In this chapter, we covered the fundamental aspects of GPUs, from their architecture and parallel processing capabilities to the role of CUDA in managing GPU tasks. By exploring example of a matrix multiplication, we've seen the GPU's power in handling parallelizable tasks. We also reviewed the evolution of GPU technology and its impact on computing efficiency. This foundation sets the stage for better understanding and leveraing GPUs in Kubernetes.

@@ -1,6 +1,11 @@
 # Chapter 4 - GPU + Kubernetes
 In chapter 3, we discussed how to run GPU-enabled applications inside a container and tried 2 samples applications. In this chapter, we focus on running GPU-enabled apps in a k8s cluster. To keep focus and yet be able to use things in production, we pick microk8s. 
 
+<b>Ansible automation is described in chapter 6. </b>
+
+
+![GPU Stack on Kubernetes](../Images/GPUstackkubernetes.jpg)
+
 **Rationale behind choosing Microk8s**
 - Goal is to self-host kubernetes with less overhead.
   - Microk8s is well-maintained by Canonical (Ubuntu), installs with 1 command (snap) and can be customized. 
@@ -9,8 +14,6 @@ In chapter 3, we discussed how to run GPU-enabled applications inside a containe
 Our setup is opinionated - there is no cluster autoscaling, and we always use a shared storage (Paperspace managed shared storage) for all nodes. 
 
 In this chapter and next, we will focus on a single node setup. This will allow us to experiment and create a script with necessary commands to get started manually. In chapter 6, we will set up a multi-node HA cluster with e2e automation using ansible.
-
-**Note: If you do not need MIG (multi-instance GPU), you can choose any GPU hardware.** If you need MIG, then it needs to be [A100 or higher (Ampere architecture+)](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html). 
 
 ## Set up and Explore Microk8s
 Recommend to set up a private network, VM, and a shared drive from the console, so you can focus on k8s. Alternately, you can refer to [CLI/API cheatsheet](Scripts_Artifacts/Paperspace-resources-sheatsheet.md) for commands. 
@@ -230,6 +233,8 @@ kubectl delete -f Scripts_Artifacts/smb-test.yaml
 
 ## Set up GPU
 
+![GPU Stack on Kubernetes](../Images/GPUstackkubernetes.jpg)
+
 For GPU, we need tools at different layers.
 - Host driver (chapter 1)
 - Nvidia container toolkit (chapter 3)
@@ -242,24 +247,6 @@ The best option is to use Nvidia GPU k8s operator (https://docs.nvidia.com/datac
 Given that we are already familiar with driver and container toolkit installation on the host, we just need to install device plugin and DGCM. This will allow us to isolate if anything goes wrong and troubleshoot faster. In any case, these can be easily automated via ansible helm. This is a good condensed reading relevant to GPU installation.
 
 https://microk8s.io/docs/addon-gpu
-
-
-### Install using Operator (for future)
-This section is for reference only and may be used in future. For now, we will install the components using helm chart (following section).
-
-Review the script.
-```shell
-ls -l /snap/microk8s/current/addons/core/addons/gpu
-cat enable
-```
-
-Configurable options: --driver, --version (default v22.9.1), --toolkit-version, --value (for helm)
-
-Let us use 23.9.1 (https://github.com/NVIDIA/gpu-operator/releases)
-
-
-Refer to [nvidia operator doc](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/getting-started.html) for all options
-microk8s enable --version=v23.9.1 --set driver.enabled=false --set toolkit.enabled=false
 
 
 
