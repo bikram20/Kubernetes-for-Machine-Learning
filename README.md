@@ -1,23 +1,17 @@
-# Practical MLOps for Kubernetes: Managing Machine Learning with GPUs and MicroK8s
+# Setting up Machine Learning Infrastructure on Kubernetes
 
-Welcome to "Practical MLOps for Kubernetes Engineers/Operators". This tutorial is tailored for Kubernetes and Devops engineers looking to deepen their understanding of **machine learning operations** with a focus on Kubernetes and containers. 
+This tutorial is tailored for Kubernetes and Devops engineers looking to deepen their understanding of **machine learning operations** with a focus on Kubernetes and containers. 
 
 To put this in perspective, there are 3 different personas.
 - Application developers using APIs (eg. Openai api) to build applications. This is not relevant to you.
 - Data Scientists building and finetuning models as a product. This is not relevant to you.
 - **Engineers looking to build/operate/learn about ML infrastructure and processes. This is for you.**
 
-We'll use MicroK8s on Ubuntu 22.04, primarily on [Paperspace](https://www.paperspace.com) by [DigitalOcean](https://www.digitalocean.com), giving you real-world experience in managing ML workflows in Kubernetes.
+We'll use MicroK8s on Ubuntu 22.04, running on [Paperspace cloud](https://www.paperspace.com) by [DigitalOcean](https://www.digitalocean.com), giving you real-world experience in managing ML workflows in Kubernetes.
 
 Why MicroK8s?
-- Natively supported by Ubuntu.
 - Thin footprint and low operational overhead to run on a single VM. Hence useful for learning.
 - Highly available and production-ready
-
-This is an intermediate-level tutorial (201 level). It assumes you're familiar with containers, Kubernetes, devops, systems/networking, and basic machine learning concepts. 
-
-If you are familiar with all the concepts, then ansible scripts (chapter 6) is all you need to set up the infrastusture.
-
 
 ## Table of Contents
 - [1. Basics of GPU](Chapters/Chapter%2001%20-%20GPU%20Basics.md)
@@ -37,10 +31,10 @@ Compare between DevOps and MLOps for Machine learning. While MLOps tooling can b
 Set up container environments and deploying GPU-based applications. 
 
 ### 4. GPU + Kubernetes
-Explore how GPUs integrate with Kubernetes, using MicroK8s and Ansible. This chapter is practical and relevant for Kubernetes in ML applications. We self-host Microk8s on Ubuntu and run it on Paperspace.
+Explore how GPUs integrate with Kubernetes, using Microk8s. We self-host Microk8s/Ubuntu on [Paperspace](https://www.paperspace.com).
 
 ### 5. Multi-instance GPU
-Learn to optimize Kubernetes for complex scenarios like multi-instance GPUs, enhancing resource utilization and ML workload performance. 
+Optimize Kubernetes for complex scenarios like multi-instance GPUs, enhancing resource utilization and ML workload performance. 
 
 ### 6. Ansible Setup
-Set up a GPU-ready, multi-node Microk8s cluster w/ shared storage on Paperspace using Ansible with opinionated setting.
+Set up a GPU-ready, multi-node Microk8s cluster with shared storage on Paperspace using Ansible with opinionated settings.

@@ -58,7 +58,7 @@ In summary, Docker provides the high-level toolset for container management, `co
 
 First, review the architecture of how NVIDIA toolkit plays with containerd.
 
-[NVIDA Toolkit Big Picture](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/1.14.3/_images/runtime-architecture.png)
+![NVIDA Toolkit Big Picture](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/1.14.3/_images/runtime-architecture.png)
 
 - **Making runc GPU Aware:** The NVIDIA Container Toolkit, specifically through the NVIDIA Container Runtime, does make runc GPU-aware. It does this not by modifying runc directly, but by adding a runtime hook. This hook is a key component in enabling the container to access NVIDIA GPU resources.
 - **Runtime Hook:** The NVIDIA Container Runtime integrates a prestart hook into the container lifecycle. This hook sets up the necessary environment (like GPU drivers and libraries) inside the container, enabling it to access and utilize the GPU.
