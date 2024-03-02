@@ -26,7 +26,6 @@ If you are familiar with all the concepts, then ansible scripts (chapter 6) is a
 - [4. GPU + Kubernetes](Chapters/Chapter%2004%20-%20GPU%20+%20Kubernetes.md)
 - [5. Multi-instance GPU](Chapters/Chapter%2005%20-%20GPU%20Sharinng.md)
 - [6. Ansible Setup](Chapters/Chapter%2006%20-%20Ansible%20Setup.md)
-- [7. Running and Finetuning LLM on Kubernetes](Chapters/Chapter%2007%20-%20Running%20and%20finetuning%20LLMs%20on%20Kubernetes.md)
 
 ### 1. Basics of GPU
 Learn the fundamentals of GPU technology, with a focus on NVIDIA GPUs. We'll cover hardware checks, driver installation, and dive into GPU compute, memory, and scheduling, including hands-on command-line examples. 
@@ -45,6 +44,3 @@ Learn to optimize Kubernetes for complex scenarios like multi-instance GPUs, enh
 
 ### 6. Ansible Setup
 Set up a GPU-ready, multi-node Microk8s cluster w/ shared storage on Paperspace using Ansible with opinionated setting.
-
-### 7. Running and finetuning LLMs on Kubernetes
-Finetune and Run a Mistral 7B model on Kubernetes.  
