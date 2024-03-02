@@ -7,8 +7,6 @@ To put this in perspective, there are 3 different personas.
 - Data Scientists building and finetuning models as a product. This is not relevant to you.
 - **Engineers looking to build/operate/learn about ML infrastructure and processes. This is for you.**
 
-We'll use MicroK8s on Ubuntu 22.04, primarily on Paperspace by DigitalOcean, giving you real-world experience in managing ML workflows in Kubernetes.
-
 We'll use MicroK8s on Ubuntu 22.04, primarily on [Paperspace](https://www.paperspace.com) by [DigitalOcean](https://www.digitalocean.com), giving you real-world experience in managing ML workflows in Kubernetes.
 
 Why MicroK8s?
